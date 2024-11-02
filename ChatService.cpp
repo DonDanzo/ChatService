@@ -1,20 +1,37 @@
 // ChatService.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
-
 #include <iostream>
+#include "messages.pb.h"
+
+void TestIsProtobufWorks()
+{
+    std::string ip("1.200.199.55");
+    std::string name("DonDanzo");
+    std::string time("2024-11-02 18:28:11");
+
+    ChatMessages::UserMessage* msg = new ChatMessages::UserMessage();
+
+    msg->set_m_userid(321);
+    msg->set_m_username(name);
+    msg->set_m_useripaddress("44.33.22.11");
+    msg->set_m_usersenttime(time);
+
+    std::cout << "Hello World!\n";
+
+    auto resultID = msg->m_userid();
+    auto resultName = msg->m_username();
+    auto resultIP = msg->m_useripaddress();
+    auto resultTIME = msg->m_usersenttime();
+
+    std::cout << "resultID: " << resultID << std::endl;
+    std::cout << "resultNAME: " << resultName << std::endl;
+    std::cout << "resultIP: " << resultIP << std::endl;
+    std::cout << "resultTIME: " << resultTIME << std::endl;
+}
+
+
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    TestIsProtobufWorks();
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file

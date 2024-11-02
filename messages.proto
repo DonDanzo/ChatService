@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package ChatMessages;
+
+message UserMessage {
+	uint64 m_userId = 1;
+	string m_userName = 2;
+	string m_userIpAddress = 3;
+	string m_userSentTime = 4;
+	string m_WTF = 5;
+}
