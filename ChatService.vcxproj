@@ -151,10 +151,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ChatService.cpp" />
+    <ClCompile Include="Logger.cpp" />
     <ClCompile Include="messages.pb.cc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Defs.h" />
+    <ClInclude Include="Logger.h" />
     <ClInclude Include="messages.pb.h" />
+    <ClInclude Include="Timer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

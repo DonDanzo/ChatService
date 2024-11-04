@@ -29,19 +29,19 @@ namespace ChatMessages {
 inline constexpr UserMessage::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
-        m_username_(
+        name_(
             &::google::protobuf::internal::fixed_address_empty_string,
             ::_pbi::ConstantInitialized()),
-        m_useripaddress_(
+        ipaddress_(
             &::google::protobuf::internal::fixed_address_empty_string,
             ::_pbi::ConstantInitialized()),
-        m_usersenttime_(
+        timestamp_(
             &::google::protobuf::internal::fixed_address_empty_string,
             ::_pbi::ConstantInitialized()),
-        m_wtf_(
+        data_(
             &::google::protobuf::internal::fixed_address_empty_string,
             ::_pbi::ConstantInitialized()),
-        m_userid_{::uint64_t{0u}} {}
+        id_{::uint64_t{0u}} {}
 
 template <typename>
 PROTOBUF_CONSTEXPR UserMessage::UserMessage(::_pbi::ConstantInitialized)
@@ -78,11 +78,11 @@ const ::uint32_t
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
-        PROTOBUF_FIELD_OFFSET(::ChatMessages::UserMessage, _impl_.m_userid_),
-        PROTOBUF_FIELD_OFFSET(::ChatMessages::UserMessage, _impl_.m_username_),
-        PROTOBUF_FIELD_OFFSET(::ChatMessages::UserMessage, _impl_.m_useripaddress_),
-        PROTOBUF_FIELD_OFFSET(::ChatMessages::UserMessage, _impl_.m_usersenttime_),
-        PROTOBUF_FIELD_OFFSET(::ChatMessages::UserMessage, _impl_.m_wtf_),
+        PROTOBUF_FIELD_OFFSET(::ChatMessages::UserMessage, _impl_.id_),
+        PROTOBUF_FIELD_OFFSET(::ChatMessages::UserMessage, _impl_.name_),
+        PROTOBUF_FIELD_OFFSET(::ChatMessages::UserMessage, _impl_.ipaddress_),
+        PROTOBUF_FIELD_OFFSET(::ChatMessages::UserMessage, _impl_.timestamp_),
+        PROTOBUF_FIELD_OFFSET(::ChatMessages::UserMessage, _impl_.data_),
         4,
         0,
         1,
@@ -99,16 +99,16 @@ static const ::_pb::Message* const file_default_instances[] = {
 };
 const char descriptor_table_protodef_messages_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\016messages.proto\022\014ChatMessages\"s\n\013UserMe"
-    "ssage\022\020\n\010m_userId\030\001 \001(\004\022\022\n\nm_userName\030\002 "
-    "\001(\t\022\027\n\017m_userIpAddress\030\003 \001(\t\022\026\n\016m_userSe"
-    "ntTime\030\004 \001(\t\022\r\n\005m_WTF\030\005 \001(\tb\006proto3"
+    "\n\016messages.proto\022\014ChatMessages\"[\n\013UserMe"
+    "ssage\022\n\n\002id\030\001 \001(\004\022\014\n\004name\030\002 \001(\t\022\021\n\tipAdd"
+    "ress\030\003 \001(\t\022\021\n\ttimestamp\030\004 \001(\t\022\014\n\004data\030\005 "
+    "\001(\tb\006proto3"
 };
 static ::absl::once_flag descriptor_table_messages_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_messages_2eproto = {
     false,
     false,
-    155,
+    131,
     descriptor_table_protodef_messages_2eproto,
     "messages.proto",
     &descriptor_table_messages_2eproto_once,
@@ -146,10 +146,10 @@ inline PROTOBUF_NDEBUG_INLINE UserMessage::Impl_::Impl_(
     const Impl_& from, const ::ChatMessages::UserMessage& from_msg)
       : _has_bits_{from._has_bits_},
         _cached_size_{0},
-        m_username_(arena, from.m_username_),
-        m_useripaddress_(arena, from.m_useripaddress_),
-        m_usersenttime_(arena, from.m_usersenttime_),
-        m_wtf_(arena, from.m_wtf_) {}
+        name_(arena, from.name_),
+        ipaddress_(arena, from.ipaddress_),
+        timestamp_(arena, from.timestamp_),
+        data_(arena, from.data_) {}
 
 UserMessage::UserMessage(
     ::google::protobuf::Arena* arena,
@@ -164,7 +164,7 @@ UserMessage::UserMessage(
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
   new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
-  _impl_.m_userid_ = from._impl_.m_userid_;
+  _impl_.id_ = from._impl_.id_;
 
   // @@protoc_insertion_point(copy_constructor:ChatMessages.UserMessage)
 }
@@ -172,14 +172,14 @@ inline PROTOBUF_NDEBUG_INLINE UserMessage::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* arena)
       : _cached_size_{0},
-        m_username_(arena),
-        m_useripaddress_(arena),
-        m_usersenttime_(arena),
-        m_wtf_(arena) {}
+        name_(arena),
+        ipaddress_(arena),
+        timestamp_(arena),
+        data_(arena) {}
 
 inline void UserMessage::SharedCtor(::_pb::Arena* arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
-  _impl_.m_userid_ = {};
+  _impl_.id_ = {};
 }
 UserMessage::~UserMessage() {
   // @@protoc_insertion_point(destructor:ChatMessages.UserMessage)
@@ -189,10 +189,10 @@ inline void UserMessage::SharedDtor(MessageLite& self) {
   UserMessage& this_ = static_cast<UserMessage&>(self);
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
-  this_._impl_.m_username_.Destroy();
-  this_._impl_.m_useripaddress_.Destroy();
-  this_._impl_.m_usersenttime_.Destroy();
-  this_._impl_.m_wtf_.Destroy();
+  this_._impl_.name_.Destroy();
+  this_._impl_.ipaddress_.Destroy();
+  this_._impl_.timestamp_.Destroy();
+  this_._impl_.data_.Destroy();
   this_._impl_.~Impl_();
 }
 
@@ -238,7 +238,7 @@ const ::google::protobuf::internal::ClassData* UserMessage::GetClassData() const
   return UserMessage_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<3, 5, 0, 77, 2> UserMessage::_table_ = {
+const ::_pbi::TcParseTable<3, 5, 0, 59, 2> UserMessage::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(UserMessage, _impl_._has_bits_),
     0, // no _extensions_
@@ -257,50 +257,50 @@ const ::_pbi::TcParseTable<3, 5, 0, 77, 2> UserMessage::_table_ = {
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // uint64 m_userId = 1;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(UserMessage, _impl_.m_userid_), 4>(),
-     {8, 4, 0, PROTOBUF_FIELD_OFFSET(UserMessage, _impl_.m_userid_)}},
-    // string m_userName = 2;
+    // uint64 id = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(UserMessage, _impl_.id_), 4>(),
+     {8, 4, 0, PROTOBUF_FIELD_OFFSET(UserMessage, _impl_.id_)}},
+    // string name = 2;
     {::_pbi::TcParser::FastUS1,
-     {18, 0, 0, PROTOBUF_FIELD_OFFSET(UserMessage, _impl_.m_username_)}},
-    // string m_userIpAddress = 3;
+     {18, 0, 0, PROTOBUF_FIELD_OFFSET(UserMessage, _impl_.name_)}},
+    // string ipAddress = 3;
     {::_pbi::TcParser::FastUS1,
-     {26, 1, 0, PROTOBUF_FIELD_OFFSET(UserMessage, _impl_.m_useripaddress_)}},
-    // string m_userSentTime = 4;
+     {26, 1, 0, PROTOBUF_FIELD_OFFSET(UserMessage, _impl_.ipaddress_)}},
+    // string timestamp = 4;
     {::_pbi::TcParser::FastUS1,
-     {34, 2, 0, PROTOBUF_FIELD_OFFSET(UserMessage, _impl_.m_usersenttime_)}},
-    // string m_WTF = 5;
+     {34, 2, 0, PROTOBUF_FIELD_OFFSET(UserMessage, _impl_.timestamp_)}},
+    // string data = 5;
     {::_pbi::TcParser::FastUS1,
-     {42, 3, 0, PROTOBUF_FIELD_OFFSET(UserMessage, _impl_.m_wtf_)}},
+     {42, 3, 0, PROTOBUF_FIELD_OFFSET(UserMessage, _impl_.data_)}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
   }}, {{
     65535, 65535
   }}, {{
-    // uint64 m_userId = 1;
-    {PROTOBUF_FIELD_OFFSET(UserMessage, _impl_.m_userid_), _Internal::kHasBitsOffset + 4, 0,
+    // uint64 id = 1;
+    {PROTOBUF_FIELD_OFFSET(UserMessage, _impl_.id_), _Internal::kHasBitsOffset + 4, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kUInt64)},
-    // string m_userName = 2;
-    {PROTOBUF_FIELD_OFFSET(UserMessage, _impl_.m_username_), _Internal::kHasBitsOffset + 0, 0,
+    // string name = 2;
+    {PROTOBUF_FIELD_OFFSET(UserMessage, _impl_.name_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
-    // string m_userIpAddress = 3;
-    {PROTOBUF_FIELD_OFFSET(UserMessage, _impl_.m_useripaddress_), _Internal::kHasBitsOffset + 1, 0,
+    // string ipAddress = 3;
+    {PROTOBUF_FIELD_OFFSET(UserMessage, _impl_.ipaddress_), _Internal::kHasBitsOffset + 1, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
-    // string m_userSentTime = 4;
-    {PROTOBUF_FIELD_OFFSET(UserMessage, _impl_.m_usersenttime_), _Internal::kHasBitsOffset + 2, 0,
+    // string timestamp = 4;
+    {PROTOBUF_FIELD_OFFSET(UserMessage, _impl_.timestamp_), _Internal::kHasBitsOffset + 2, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
-    // string m_WTF = 5;
-    {PROTOBUF_FIELD_OFFSET(UserMessage, _impl_.m_wtf_), _Internal::kHasBitsOffset + 3, 0,
+    // string data = 5;
+    {PROTOBUF_FIELD_OFFSET(UserMessage, _impl_.data_), _Internal::kHasBitsOffset + 3, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
   }},
   // no aux_entries
   {{
-    "\30\0\12\17\16\5\0\0"
+    "\30\0\4\11\11\4\0\0"
     "ChatMessages.UserMessage"
-    "m_userName"
-    "m_userIpAddress"
-    "m_userSentTime"
-    "m_WTF"
+    "name"
+    "ipAddress"
+    "timestamp"
+    "data"
   }},
 };
 
@@ -314,19 +314,19 @@ PROTOBUF_NOINLINE void UserMessage::Clear() {
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x0000000fu) {
     if (cached_has_bits & 0x00000001u) {
-      _impl_.m_username_.ClearNonDefaultToEmpty();
+      _impl_.name_.ClearNonDefaultToEmpty();
     }
     if (cached_has_bits & 0x00000002u) {
-      _impl_.m_useripaddress_.ClearNonDefaultToEmpty();
+      _impl_.ipaddress_.ClearNonDefaultToEmpty();
     }
     if (cached_has_bits & 0x00000004u) {
-      _impl_.m_usersenttime_.ClearNonDefaultToEmpty();
+      _impl_.timestamp_.ClearNonDefaultToEmpty();
     }
     if (cached_has_bits & 0x00000008u) {
-      _impl_.m_wtf_.ClearNonDefaultToEmpty();
+      _impl_.data_.ClearNonDefaultToEmpty();
     }
   }
-  _impl_.m_userid_ = ::uint64_t{0u};
+  _impl_.id_ = ::uint64_t{0u};
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
@@ -346,51 +346,51 @@ PROTOBUF_NOINLINE void UserMessage::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // uint64 m_userId = 1;
+          // uint64 id = 1;
           if ((this_._impl_._has_bits_[0] & 0x00000010u) != 0) {
-            if (this_._internal_m_userid() != 0) {
+            if (this_._internal_id() != 0) {
               target = stream->EnsureSpace(target);
               target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
-                  1, this_._internal_m_userid(), target);
+                  1, this_._internal_id(), target);
             }
           }
 
-          // string m_userName = 2;
+          // string name = 2;
           if ((this_._impl_._has_bits_[0] & 0x00000001u) != 0) {
-            if (!this_._internal_m_username().empty()) {
-              const std::string& _s = this_._internal_m_username();
+            if (!this_._internal_name().empty()) {
+              const std::string& _s = this_._internal_name();
               ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-                  _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "ChatMessages.UserMessage.m_userName");
+                  _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "ChatMessages.UserMessage.name");
               target = stream->WriteStringMaybeAliased(2, _s, target);
             }
           }
 
-          // string m_userIpAddress = 3;
+          // string ipAddress = 3;
           if ((this_._impl_._has_bits_[0] & 0x00000002u) != 0) {
-            if (!this_._internal_m_useripaddress().empty()) {
-              const std::string& _s = this_._internal_m_useripaddress();
+            if (!this_._internal_ipaddress().empty()) {
+              const std::string& _s = this_._internal_ipaddress();
               ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-                  _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "ChatMessages.UserMessage.m_userIpAddress");
+                  _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "ChatMessages.UserMessage.ipAddress");
               target = stream->WriteStringMaybeAliased(3, _s, target);
             }
           }
 
-          // string m_userSentTime = 4;
+          // string timestamp = 4;
           if ((this_._impl_._has_bits_[0] & 0x00000004u) != 0) {
-            if (!this_._internal_m_usersenttime().empty()) {
-              const std::string& _s = this_._internal_m_usersenttime();
+            if (!this_._internal_timestamp().empty()) {
+              const std::string& _s = this_._internal_timestamp();
               ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-                  _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "ChatMessages.UserMessage.m_userSentTime");
+                  _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "ChatMessages.UserMessage.timestamp");
               target = stream->WriteStringMaybeAliased(4, _s, target);
             }
           }
 
-          // string m_WTF = 5;
+          // string data = 5;
           if ((this_._impl_._has_bits_[0] & 0x00000008u) != 0) {
-            if (!this_._internal_m_wtf().empty()) {
-              const std::string& _s = this_._internal_m_wtf();
+            if (!this_._internal_data().empty()) {
+              const std::string& _s = this_._internal_data();
               ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-                  _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "ChatMessages.UserMessage.m_WTF");
+                  _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "ChatMessages.UserMessage.data");
               target = stream->WriteStringMaybeAliased(5, _s, target);
             }
           }
@@ -421,39 +421,39 @@ PROTOBUF_NOINLINE void UserMessage::Clear() {
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
           cached_has_bits = this_._impl_._has_bits_[0];
           if (cached_has_bits & 0x0000001fu) {
-            // string m_userName = 2;
+            // string name = 2;
             if (cached_has_bits & 0x00000001u) {
-              if (!this_._internal_m_username().empty()) {
+              if (!this_._internal_name().empty()) {
                 total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
-                                                this_._internal_m_username());
+                                                this_._internal_name());
               }
             }
-            // string m_userIpAddress = 3;
+            // string ipAddress = 3;
             if (cached_has_bits & 0x00000002u) {
-              if (!this_._internal_m_useripaddress().empty()) {
+              if (!this_._internal_ipaddress().empty()) {
                 total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
-                                                this_._internal_m_useripaddress());
+                                                this_._internal_ipaddress());
               }
             }
-            // string m_userSentTime = 4;
+            // string timestamp = 4;
             if (cached_has_bits & 0x00000004u) {
-              if (!this_._internal_m_usersenttime().empty()) {
+              if (!this_._internal_timestamp().empty()) {
                 total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
-                                                this_._internal_m_usersenttime());
+                                                this_._internal_timestamp());
               }
             }
-            // string m_WTF = 5;
+            // string data = 5;
             if (cached_has_bits & 0x00000008u) {
-              if (!this_._internal_m_wtf().empty()) {
+              if (!this_._internal_data().empty()) {
                 total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
-                                                this_._internal_m_wtf());
+                                                this_._internal_data());
               }
             }
-            // uint64 m_userId = 1;
+            // uint64 id = 1;
             if (cached_has_bits & 0x00000010u) {
-              if (this_._internal_m_userid() != 0) {
+              if (this_._internal_id() != 0) {
                 total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
-                    this_._internal_m_userid());
+                    this_._internal_id());
               }
             }
           }
@@ -472,44 +472,44 @@ void UserMessage::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::goo
   cached_has_bits = from._impl_._has_bits_[0];
   if (cached_has_bits & 0x0000001fu) {
     if (cached_has_bits & 0x00000001u) {
-      if (!from._internal_m_username().empty()) {
-        _this->_internal_set_m_username(from._internal_m_username());
+      if (!from._internal_name().empty()) {
+        _this->_internal_set_name(from._internal_name());
       } else {
-        if (_this->_impl_.m_username_.IsDefault()) {
-          _this->_internal_set_m_username("");
+        if (_this->_impl_.name_.IsDefault()) {
+          _this->_internal_set_name("");
         }
       }
     }
     if (cached_has_bits & 0x00000002u) {
-      if (!from._internal_m_useripaddress().empty()) {
-        _this->_internal_set_m_useripaddress(from._internal_m_useripaddress());
+      if (!from._internal_ipaddress().empty()) {
+        _this->_internal_set_ipaddress(from._internal_ipaddress());
       } else {
-        if (_this->_impl_.m_useripaddress_.IsDefault()) {
-          _this->_internal_set_m_useripaddress("");
+        if (_this->_impl_.ipaddress_.IsDefault()) {
+          _this->_internal_set_ipaddress("");
         }
       }
     }
     if (cached_has_bits & 0x00000004u) {
-      if (!from._internal_m_usersenttime().empty()) {
-        _this->_internal_set_m_usersenttime(from._internal_m_usersenttime());
+      if (!from._internal_timestamp().empty()) {
+        _this->_internal_set_timestamp(from._internal_timestamp());
       } else {
-        if (_this->_impl_.m_usersenttime_.IsDefault()) {
-          _this->_internal_set_m_usersenttime("");
+        if (_this->_impl_.timestamp_.IsDefault()) {
+          _this->_internal_set_timestamp("");
         }
       }
     }
     if (cached_has_bits & 0x00000008u) {
-      if (!from._internal_m_wtf().empty()) {
-        _this->_internal_set_m_wtf(from._internal_m_wtf());
+      if (!from._internal_data().empty()) {
+        _this->_internal_set_data(from._internal_data());
       } else {
-        if (_this->_impl_.m_wtf_.IsDefault()) {
-          _this->_internal_set_m_wtf("");
+        if (_this->_impl_.data_.IsDefault()) {
+          _this->_internal_set_data("");
         }
       }
     }
     if (cached_has_bits & 0x00000010u) {
-      if (from._internal_m_userid() != 0) {
-        _this->_impl_.m_userid_ = from._impl_.m_userid_;
+      if (from._internal_id() != 0) {
+        _this->_impl_.id_ = from._impl_.id_;
       }
     }
   }
@@ -531,11 +531,11 @@ void UserMessage::InternalSwap(UserMessage* PROTOBUF_RESTRICT other) {
   ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.m_username_, &other->_impl_.m_username_, arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.m_useripaddress_, &other->_impl_.m_useripaddress_, arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.m_usersenttime_, &other->_impl_.m_usersenttime_, arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.m_wtf_, &other->_impl_.m_wtf_, arena);
-        swap(_impl_.m_userid_, other->_impl_.m_userid_);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.name_, &other->_impl_.name_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.ipaddress_, &other->_impl_.ipaddress_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.timestamp_, &other->_impl_.timestamp_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.data_, &other->_impl_.data_, arena);
+        swap(_impl_.id_, other->_impl_.id_);
 }
 
 ::google::protobuf::Metadata UserMessage::GetMetadata() const {
