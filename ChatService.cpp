@@ -6,24 +6,10 @@
 #include "Defs.h"
 #include "Timer.h"
 
-
+#include "Client.h"
+#include "Server.h"
 
 using namespace std::chrono_literals;
-
-enum class EServiceType
-{
-    Server, 
-    Client
-};
-auto ParseInput(int argc, char* argv[])
-{
-    std::cout << "ChatService can be started as Client, or Server, please input your choice" << std::endl;
-    EServiceType type = EServiceType::Server;    
-    std::cout << "For Server input: [-server]" << std::endl;
-    std::cout << "For Client input: [-client]" << std::endl;
-
-    return std::make_tuple(true, type);
-}
 
 void TestLoggerWithProtobuf()
 {
@@ -39,7 +25,7 @@ void TestLoggerWithProtobuf()
 
     for (auto& msg : messages)
     {
-        msg.set_id(id++);
+        msg.set_type(ChatMessages::MessageType::Client);
         name += (++letter);
         msg.set_name(name);
         msg.set_ipaddress("44.33.22.11");
@@ -53,7 +39,7 @@ void TestLoggerWithProtobuf()
     }
 }
 
-
+#pragma region  LOGGER_TIMER
 bool m_isHourTimerFinished = false;
 auto CalculateTimerDuration()
 {
@@ -63,7 +49,6 @@ auto CalculateTimerDuration()
 
     return Defs::HourSeconds - (calendar_time.tm_min * Defs::MinuteSeconds + calendar_time.tm_sec);
 }
-
 void HandleOnTimer(size_t timerId)
 {
     LOG_DEBUG_PARAM("Handle Timer with ID: ", timerId)
@@ -77,24 +62,64 @@ void HandleOnTimer(size_t timerId)
         Logger::Instance().OpenFile();
     }
 }
-
 std::future<void> StartHourTimer(const size_t& timerId)
 {
     return Timer::StartTimerAsync(std::chrono::seconds(CalculateTimerDuration()), Defs::NewHourTimerId, HandleOnTimer);
 }
+#pragma endregion
+
+
+void StartClient()
+{
+    ChatMessages::UserMessage msg;
+    msg.set_type(ChatMessages::MessageType::Client);
+    msg.set_name("0000000000");
+    msg.set_ipaddress("8888888888");
+    msg.set_timestamp("9999999999");
+    msg.set_data("AaAaAaAaAa");
+
+    Client client;
+    client.Connect("127.0.0.1", 23);
+
+    //client.Wait();
+
+    client.Send(msg);
+
+
+    while (true)
+    {
+        client.Send(msg);
+        if (client.IsConnected())
+        {
+            continue;
+        }
+        break;
+    }
+
+}
+void StartServer(size_t serverPort = 11111)
+{
+    Server server(serverPort);
+    server.Start();
+
+    while (true)
+    {
+        server.Update(-1, true);
+    }
+}
 
 
 
-#include "Timer.h"
 int main(int argc, char* argv [])
 {
+    StartServer();
+    StartClient();
+
     auto future = StartHourTimer(Defs::NewHourTimerId);
-
-
     int cnt = 0;
     while (true)
     {
-        LOG_DEBUG_PARAM("cnnt: ", cnt++)
+        LOG_DEBUG_PARAM("cnnt: ", ++cnt)
         TestLoggerWithProtobuf();
         std::this_thread::sleep_for(10s);
         if (m_isHourTimerFinished)
@@ -104,22 +129,4 @@ int main(int argc, char* argv [])
         }
     }
 
-
-    auto [isParseValid, serviceType] = ParseInput(argc, argv);
-
-    if (!isParseValid)
-    {
-        //std ERRRP
-    }
-
-    if (serviceType == EServiceType::Client)
-    {
-        //START CKLIENT
-    }
-    else 
-    {
-        //STRA SERVER
-    }
-
-    LOG_DEBUG ("exiting ... ");
 }

@@ -16,30 +16,60 @@
     <Filter Include="Logger">
       <UniqueIdentifier>{cee221d5-9db7-472e-9696-e959a199e973}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Model">
+      <UniqueIdentifier>{83ea8928-756f-4582-81a6-9c35418683c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Definitions">
+      <UniqueIdentifier>{ef8cee1a-4375-4806-a02d-d8760b5a250a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ChatService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="messages.pb.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Logger.cpp">
       <Filter>Logger</Filter>
     </ClCompile>
+    <ClCompile Include="Connection.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Client.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Server.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="messages.pb.cc">
+      <Filter>Definitions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="messages.pb.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Logger.h">
       <Filter>Logger</Filter>
     </ClInclude>
-    <ClInclude Include="Defs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Connection.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadSafeQueue.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Client.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Server.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Messages.h">
+      <Filter>Definitions</Filter>
+    </ClInclude>
+    <ClInclude Include="Defs.h">
+      <Filter>Definitions</Filter>
+    </ClInclude>
+    <ClInclude Include="messages.pb.h">
+      <Filter>Definitions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

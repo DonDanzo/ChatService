@@ -16,6 +16,7 @@ void Logger::CalculateFileName()
     if (res != 0)
     {
         //TODO: do some actions depending returned result
+        LogError("Failed converting local time to calendar_time object");
         return;
     }
 
@@ -47,11 +48,30 @@ void Logger::CloseFile()
 }
 
 
+void Logger::Log(const std::string& msg1, const std::string& msg2, const std::string& msg3)
+{
+    if (!m_file.is_open())
+    {
+        LogError(msg1, msg2, msg3);
+    }
+    std::cout << Defs::LogInfoHead << msg1 << msg2 << msg3 << std::endl;
+}
 void Logger::Log(const ChatMessages::UserMessage& msg)
 {
     if (!m_file.is_open())
     {
-        throw("Not valid ofstream file, file is not open()");
+        LogError(msg.DebugString());
     }
-    m_file << "UserId:[" << msg.id() << "], UserName:[" << msg.name() << "], IpAddress:[" << msg.ipaddress() << "], Time:[" << msg.timestamp() << "], Message:[" << msg.data() << "]" << std::endl;
+    m_file << "MsgType:[" << msg.type() << "], UserName:[" << msg.name() << "], IpAddress:[" << msg.ipaddress() << "], Time:[" << msg.timestamp() << "], Message:[" << msg.data() << "]" << std::endl;
+}
+void Logger::LogError(const std::string& msg1, const std::string& msg2, const std::string& msg3)
+{    
+    std::cerr << "ERROR: ";
+    if (!m_file.is_open())
+    {
+        std::string errMsg = "Log: Not valid ofstream file, file is not open()";
+        std::cerr << errMsg << std::endl;
+        throw(errMsg);
+    }
+    std::cerr << msg1 << msg2 << msg3 << "\n";
 }

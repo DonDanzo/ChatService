@@ -41,7 +41,7 @@ inline constexpr UserMessage::Impl_::Impl_(
         data_(
             &::google::protobuf::internal::fixed_address_empty_string,
             ::_pbi::ConstantInitialized()),
-        id_{::uint64_t{0u}} {}
+        type_{static_cast< ::ChatMessages::MessageType >(0)} {}
 
 template <typename>
 PROTOBUF_CONSTEXPR UserMessage::UserMessage(::_pbi::ConstantInitialized)
@@ -63,8 +63,7 @@ struct UserMessageDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 UserMessageDefaultTypeInternal _UserMessage_default_instance_;
 }  // namespace ChatMessages
-static constexpr const ::_pb::EnumDescriptor**
-    file_level_enum_descriptors_messages_2eproto = nullptr;
+static const ::_pb::EnumDescriptor* file_level_enum_descriptors_messages_2eproto[1];
 static constexpr const ::_pb::ServiceDescriptor**
     file_level_service_descriptors_messages_2eproto = nullptr;
 const ::uint32_t
@@ -78,7 +77,7 @@ const ::uint32_t
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
-        PROTOBUF_FIELD_OFFSET(::ChatMessages::UserMessage, _impl_.id_),
+        PROTOBUF_FIELD_OFFSET(::ChatMessages::UserMessage, _impl_.type_),
         PROTOBUF_FIELD_OFFSET(::ChatMessages::UserMessage, _impl_.name_),
         PROTOBUF_FIELD_OFFSET(::ChatMessages::UserMessage, _impl_.ipaddress_),
         PROTOBUF_FIELD_OFFSET(::ChatMessages::UserMessage, _impl_.timestamp_),
@@ -99,16 +98,17 @@ static const ::_pb::Message* const file_default_instances[] = {
 };
 const char descriptor_table_protodef_messages_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\016messages.proto\022\014ChatMessages\"[\n\013UserMe"
-    "ssage\022\n\n\002id\030\001 \001(\004\022\014\n\004name\030\002 \001(\t\022\021\n\tipAdd"
-    "ress\030\003 \001(\t\022\021\n\ttimestamp\030\004 \001(\t\022\014\n\004data\030\005 "
-    "\001(\tb\006proto3"
+    "\n\016messages.proto\022\014ChatMessages\"x\n\013UserMe"
+    "ssage\022\'\n\004type\030\001 \001(\0162\031.ChatMessages.Messa"
+    "geType\022\014\n\004name\030\002 \001(\t\022\021\n\tipAddress\030\003 \001(\t\022"
+    "\021\n\ttimestamp\030\004 \001(\t\022\014\n\004data\030\005 \001(\t*%\n\013Mess"
+    "ageType\022\n\n\006System\020\000\022\n\n\006Client\020\001b\006proto3"
 };
 static ::absl::once_flag descriptor_table_messages_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_messages_2eproto = {
     false,
     false,
-    131,
+    199,
     descriptor_table_protodef_messages_2eproto,
     "messages.proto",
     &descriptor_table_messages_2eproto_once,
@@ -122,6 +122,15 @@ PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_messages_2epro
     file_level_service_descriptors_messages_2eproto,
 };
 namespace ChatMessages {
+const ::google::protobuf::EnumDescriptor* MessageType_descriptor() {
+  ::google::protobuf::internal::AssignDescriptors(&descriptor_table_messages_2eproto);
+  return file_level_enum_descriptors_messages_2eproto[0];
+}
+PROTOBUF_CONSTINIT const uint32_t MessageType_internal_data_[] = {
+    131072u, 0u, };
+bool MessageType_IsValid(int value) {
+  return 0 <= value && value <= 1;
+}
 // ===================================================================
 
 class UserMessage::_Internal {
@@ -164,7 +173,7 @@ UserMessage::UserMessage(
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
   new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
-  _impl_.id_ = from._impl_.id_;
+  _impl_.type_ = from._impl_.type_;
 
   // @@protoc_insertion_point(copy_constructor:ChatMessages.UserMessage)
 }
@@ -179,7 +188,7 @@ inline PROTOBUF_NDEBUG_INLINE UserMessage::Impl_::Impl_(
 
 inline void UserMessage::SharedCtor(::_pb::Arena* arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
-  _impl_.id_ = {};
+  _impl_.type_ = {};
 }
 UserMessage::~UserMessage() {
   // @@protoc_insertion_point(destructor:ChatMessages.UserMessage)
@@ -257,9 +266,9 @@ const ::_pbi::TcParseTable<3, 5, 0, 59, 2> UserMessage::_table_ = {
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // uint64 id = 1;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(UserMessage, _impl_.id_), 4>(),
-     {8, 4, 0, PROTOBUF_FIELD_OFFSET(UserMessage, _impl_.id_)}},
+    // .ChatMessages.MessageType type = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(UserMessage, _impl_.type_), 4>(),
+     {8, 4, 0, PROTOBUF_FIELD_OFFSET(UserMessage, _impl_.type_)}},
     // string name = 2;
     {::_pbi::TcParser::FastUS1,
      {18, 0, 0, PROTOBUF_FIELD_OFFSET(UserMessage, _impl_.name_)}},
@@ -277,9 +286,9 @@ const ::_pbi::TcParseTable<3, 5, 0, 59, 2> UserMessage::_table_ = {
   }}, {{
     65535, 65535
   }}, {{
-    // uint64 id = 1;
-    {PROTOBUF_FIELD_OFFSET(UserMessage, _impl_.id_), _Internal::kHasBitsOffset + 4, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kUInt64)},
+    // .ChatMessages.MessageType type = 1;
+    {PROTOBUF_FIELD_OFFSET(UserMessage, _impl_.type_), _Internal::kHasBitsOffset + 4, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kOpenEnum)},
     // string name = 2;
     {PROTOBUF_FIELD_OFFSET(UserMessage, _impl_.name_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
@@ -326,7 +335,7 @@ PROTOBUF_NOINLINE void UserMessage::Clear() {
       _impl_.data_.ClearNonDefaultToEmpty();
     }
   }
-  _impl_.id_ = ::uint64_t{0u};
+  _impl_.type_ = 0;
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
@@ -346,12 +355,12 @@ PROTOBUF_NOINLINE void UserMessage::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // uint64 id = 1;
+          // .ChatMessages.MessageType type = 1;
           if ((this_._impl_._has_bits_[0] & 0x00000010u) != 0) {
-            if (this_._internal_id() != 0) {
+            if (this_._internal_type() != 0) {
               target = stream->EnsureSpace(target);
-              target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
-                  1, this_._internal_id(), target);
+              target = ::_pbi::WireFormatLite::WriteEnumToArray(
+                  1, this_._internal_type(), target);
             }
           }
 
@@ -449,11 +458,11 @@ PROTOBUF_NOINLINE void UserMessage::Clear() {
                                                 this_._internal_data());
               }
             }
-            // uint64 id = 1;
+            // .ChatMessages.MessageType type = 1;
             if (cached_has_bits & 0x00000010u) {
-              if (this_._internal_id() != 0) {
-                total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
-                    this_._internal_id());
+              if (this_._internal_type() != 0) {
+                total_size += 1 +
+                              ::_pbi::WireFormatLite::EnumSize(this_._internal_type());
               }
             }
           }
@@ -508,8 +517,8 @@ void UserMessage::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::goo
       }
     }
     if (cached_has_bits & 0x00000010u) {
-      if (from._internal_id() != 0) {
-        _this->_impl_.id_ = from._impl_.id_;
+      if (from._internal_type() != 0) {
+        _this->_impl_.type_ = from._impl_.type_;
       }
     }
   }
@@ -535,7 +544,7 @@ void UserMessage::InternalSwap(UserMessage* PROTOBUF_RESTRICT other) {
   ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.ipaddress_, &other->_impl_.ipaddress_, arena);
   ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.timestamp_, &other->_impl_.timestamp_, arena);
   ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.data_, &other->_impl_.data_, arena);
-        swap(_impl_.id_, other->_impl_.id_);
+  swap(_impl_.type_, other->_impl_.type_);
 }
 
 ::google::protobuf::Metadata UserMessage::GetMetadata() const {

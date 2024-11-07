@@ -28,6 +28,7 @@
 #include "google/protobuf/message_lite.h"
 #include "google/protobuf/repeated_field.h"  // IWYU pragma: export
 #include "google/protobuf/extension_set.h"  // IWYU pragma: export
+#include "google/protobuf/generated_enum_reflection.h"
 #include "google/protobuf/unknown_field_set.h"
 // @@protoc_insertion_point(includes)
 
@@ -52,6 +53,9 @@ struct TableStruct_messages_2eproto {
 extern const ::google::protobuf::internal::DescriptorTable
     descriptor_table_messages_2eproto;
 namespace ChatMessages {
+enum MessageType : int;
+bool MessageType_IsValid(int value);
+extern const uint32_t MessageType_internal_data_[];
 class UserMessage;
 struct UserMessageDefaultTypeInternal;
 extern UserMessageDefaultTypeInternal _UserMessage_default_instance_;
@@ -59,10 +63,48 @@ extern const ::google::protobuf::internal::ClassDataFull UserMessage_class_data_
 }  // namespace ChatMessages
 namespace google {
 namespace protobuf {
+template <>
+internal::EnumTraitsT<::ChatMessages::MessageType_internal_data_>
+    internal::EnumTraitsImpl::value<::ChatMessages::MessageType>;
 }  // namespace protobuf
 }  // namespace google
 
 namespace ChatMessages {
+enum MessageType : int {
+  System = 0,
+  Client = 1,
+  MessageType_INT_MIN_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::min(),
+  MessageType_INT_MAX_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::max(),
+};
+
+bool MessageType_IsValid(int value);
+extern const uint32_t MessageType_internal_data_[];
+inline constexpr MessageType MessageType_MIN =
+    static_cast<MessageType>(0);
+inline constexpr MessageType MessageType_MAX =
+    static_cast<MessageType>(1);
+inline constexpr int MessageType_ARRAYSIZE = 1 + 1;
+const ::google::protobuf::EnumDescriptor*
+MessageType_descriptor();
+template <typename T>
+const std::string& MessageType_Name(T value) {
+  static_assert(std::is_same<T, MessageType>::value ||
+                    std::is_integral<T>::value,
+                "Incorrect type passed to MessageType_Name().");
+  return MessageType_Name(static_cast<MessageType>(value));
+}
+template <>
+inline const std::string& MessageType_Name(MessageType value) {
+  return ::google::protobuf::internal::NameOfDenseEnum<MessageType_descriptor,
+                                                 0, 1>(
+      static_cast<int>(value));
+}
+inline bool MessageType_Parse(absl::string_view name, MessageType* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<MessageType>(
+      MessageType_descriptor(), name, value);
+}
 
 // ===================================================================
 
@@ -221,7 +263,7 @@ class UserMessage final
     kIpAddressFieldNumber = 3,
     kTimestampFieldNumber = 4,
     kDataFieldNumber = 5,
-    kIdFieldNumber = 1,
+    kTypeFieldNumber = 1,
   };
   // string name = 2;
   void clear_name() ;
@@ -287,14 +329,14 @@ class UserMessage final
   std::string* _internal_mutable_data();
 
   public:
-  // uint64 id = 1;
-  void clear_id() ;
-  ::uint64_t id() const;
-  void set_id(::uint64_t value);
+  // .ChatMessages.MessageType type = 1;
+  void clear_type() ;
+  ::ChatMessages::MessageType type() const;
+  void set_type(::ChatMessages::MessageType value);
 
   private:
-  ::uint64_t _internal_id() const;
-  void _internal_set_id(::uint64_t value);
+  ::ChatMessages::MessageType _internal_type() const;
+  void _internal_set_type(::ChatMessages::MessageType value);
 
   public:
   // @@protoc_insertion_point(class_scope:ChatMessages.UserMessage)
@@ -326,7 +368,7 @@ class UserMessage final
     ::google::protobuf::internal::ArenaStringPtr ipaddress_;
     ::google::protobuf::internal::ArenaStringPtr timestamp_;
     ::google::protobuf::internal::ArenaStringPtr data_;
-    ::uint64_t id_;
+    int type_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -351,28 +393,28 @@ extern const ::google::protobuf::internal::ClassDataFull UserMessage_class_data_
 
 // UserMessage
 
-// uint64 id = 1;
-inline void UserMessage::clear_id() {
+// .ChatMessages.MessageType type = 1;
+inline void UserMessage::clear_type() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.id_ = ::uint64_t{0u};
+  _impl_.type_ = 0;
   _impl_._has_bits_[0] &= ~0x00000010u;
 }
-inline ::uint64_t UserMessage::id() const {
-  // @@protoc_insertion_point(field_get:ChatMessages.UserMessage.id)
-  return _internal_id();
+inline ::ChatMessages::MessageType UserMessage::type() const {
+  // @@protoc_insertion_point(field_get:ChatMessages.UserMessage.type)
+  return _internal_type();
 }
-inline void UserMessage::set_id(::uint64_t value) {
-  _internal_set_id(value);
+inline void UserMessage::set_type(::ChatMessages::MessageType value) {
+  _internal_set_type(value);
   _impl_._has_bits_[0] |= 0x00000010u;
-  // @@protoc_insertion_point(field_set:ChatMessages.UserMessage.id)
+  // @@protoc_insertion_point(field_set:ChatMessages.UserMessage.type)
 }
-inline ::uint64_t UserMessage::_internal_id() const {
+inline ::ChatMessages::MessageType UserMessage::_internal_type() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.id_;
+  return static_cast<::ChatMessages::MessageType>(_impl_.type_);
 }
-inline void UserMessage::_internal_set_id(::uint64_t value) {
+inline void UserMessage::_internal_set_type(::ChatMessages::MessageType value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.id_ = value;
+  _impl_.type_ = value;
 }
 
 // string name = 2;
@@ -642,6 +684,19 @@ inline void UserMessage::set_allocated_data(std::string* value) {
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace ChatMessages
 
+
+namespace google {
+namespace protobuf {
+
+template <>
+struct is_proto_enum<::ChatMessages::MessageType> : std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor<::ChatMessages::MessageType>() {
+  return ::ChatMessages::MessageType_descriptor();
+}
+
+}  // namespace protobuf
+}  // namespace google
 
 // @@protoc_insertion_point(global_scope)
 

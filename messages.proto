@@ -2,10 +2,16 @@ syntax = "proto3";
 
 package ChatMessages;
 
+enum MessageType{
+	System = 0;
+	Client = 1;
+}
+
 message UserMessage {
-	uint64 id = 1;
+	MessageType type = 1;
 	string name = 2;
 	string ipAddress = 3;
 	string timestamp = 4;
 	string data = 5;
 }
+
