@@ -58,7 +58,7 @@ void Client::Disconnect()
 
 bool Client::IsConnected()
 {
-	LOG_DEBUG("Client::IsConnected()")
+	//LOG_DEBUG("Client::IsConnected()")
 	if (m_connection)
 		return m_connection->IsConnected();
 	

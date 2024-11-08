@@ -42,6 +42,9 @@
     <ClCompile Include="messages.pb.cc">
       <Filter>Definitions</Filter>
     </ClCompile>
+    <ClCompile Include="SpiderClient.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logger.h">
@@ -70,6 +73,9 @@
     </ClInclude>
     <ClInclude Include="messages.pb.h">
       <Filter>Definitions</Filter>
+    </ClInclude>
+    <ClInclude Include="SpiderClient.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

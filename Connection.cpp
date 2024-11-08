@@ -40,7 +40,6 @@ void Connection::ConnectToClient(uint32_t userId)
 
 void Connection::ConnectToServer(const asio::ip::tcp::resolver::results_type& endpoints)
 {
-	LOG_DEBUG("Connection::ConnectToServer()")
 	// Only clients can connect to servers
 	if (m_ownerType != Owner::Client)
 	{
@@ -52,6 +51,7 @@ void Connection::ConnectToServer(const asio::ip::tcp::resolver::results_type& en
 	asio::async_connect(m_socket, endpoints,
 		[this](std::error_code ec, asio::ip::tcp::endpoint endpoint)
 		{
+			LOG_DEBUG("Connection::ConnectToServer()")
 			if (ec)
 			{
 				Logger::Instance().LogError(ec.message());
@@ -84,6 +84,7 @@ void Connection::Send(Messages::CommunicationMessage& msg)
 		{
 			if (ec)
 			{
+				LOG_DEBUG("Connection::Send() - Header")
 				Logger::Instance().LogError("Failed to sending message header with ID: ", std::to_string(m_id));
 				Logger::Instance().LogError(ec.message());
 				m_socket.close();
@@ -97,6 +98,7 @@ void Connection::Send(Messages::CommunicationMessage& msg)
 			{
 				if (ec)
 				{
+					LOG_DEBUG("Connection::Send() - Body")
 					Logger::Instance().LogError("Failed to sending message body with ID: ", std::to_string(m_id));
 					Logger::Instance().LogError(ec.message());
 					m_socket.close();
@@ -112,10 +114,10 @@ void Connection::Send(Messages::CommunicationMessage& msg)
 
 void Connection::Send(const ChatMessages::UserMessage& msg)
 {
-	LOG_DEBUG("Connection::Send()")
 	asio::post(m_asioContext,
 		[this, msg]()
 		{
+			LOG_DEBUG("Connection::Send()")
 			bool isThereMsgToBeProceed = m_queuedOutputMessages.IsEmpty();
 			m_queuedOutputMessages.PushBack(msg);
 			if (isThereMsgToBeProceed)
@@ -127,6 +129,9 @@ void Connection::Send(const ChatMessages::UserMessage& msg)
 
 void Connection::WriteData()
 {
+	if (m_queuedOutputMessages.IsEmpty())
+			return;
+
 	LOG_DEBUG("Connection::WriteData()")
 	auto userMsg = m_queuedOutputMessages.PopFront();//pop message that will be send from the queue
 
@@ -148,6 +153,7 @@ void Connection::WriteData()
 	asio::async_write(m_socket, asio::buffer(&commMsgHeader, Messages::MessageHeaderSizes::Header),// send converted Communication message as raw data in the socket
 		[&, this](std::error_code ec, std::size_t length)
 		{
+			LOG_DEBUG("Connection::WriteData() - ASYNC")
 			if (ec)
 			{
 				Logger::Instance().LogError("Failed to sending message header with ID: ", std::to_string(m_id));
@@ -179,11 +185,11 @@ void Connection::WriteData()
 
 void Connection::ReadHeader()
 {
-	LOG_DEBUG("Connection::ReadHeader()")
 	// wait until recevied enough bytes to construct header, header contains size of body, so it will be parsed after header is received
 	asio::async_read(m_socket, asio::buffer(&m_incomeMsg.GetHeader(), Messages::MessageHeaderSizes::Header),
 		[this](std::error_code ec, std::size_t length)
 		{
+			LOG_DEBUG("Connection::ReadHeader()")
 			if (ec)
 			{
 				Logger::Instance().LogError("Failed reading header of message with ID: ", std::to_string(m_id));
@@ -214,11 +220,10 @@ void Connection::ReadHeader()
 }
 
 void Connection::ReadBody()
-{
-	LOG_DEBUG("Connection::ReadBody()")
-	asio::async_read(m_socket, asio::buffer(m_incomeMsg.GetBody().data(), m_incomeMsg.GetBody().size()),
+{	asio::async_read(m_socket, asio::buffer(m_incomeMsg.GetBody().data(), m_incomeMsg.GetBody().size()),
 		[this](std::error_code ec, std::size_t length)
 		{
+			LOG_DEBUG("Connection::ReadBody()")
 			if (ec)
 			{
 				Logger::Instance().LogError("Failed reading body of message with ID: ", std::to_string(m_id));

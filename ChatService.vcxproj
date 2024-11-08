@@ -156,6 +156,7 @@
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="messages.pb.cc" />
     <ClCompile Include="Server.cpp" />
+    <ClCompile Include="SpiderClient.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h" />
@@ -164,6 +165,7 @@
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Messages.h" />
     <ClInclude Include="messages.pb.h" />
+    <ClInclude Include="SpiderClient.h" />
     <ClInclude Include="ThreadSafeQueue.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="Timer.h" />

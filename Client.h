@@ -21,6 +21,7 @@ public:
 	ThreadSafeQueue<std::pair<std::shared_ptr<Connection>, Messages::CommunicationMessage>>& Incoming();// Retrieve queue of messages from server
 	void Wait() { m_queuedMessagesIn.Wait(); }
 protected:
+	virtual void ProcessIncomeMessages() = 0;
 	asio::io_context m_context;	// asio context handles the data transfer...
 	std::thread m_threadContext;		// but needs a thread of its own to execute work commands
 	std::unique_ptr<Connection> m_connection;	//"connection" object handles data transfer

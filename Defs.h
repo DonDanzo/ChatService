@@ -1,12 +1,14 @@
 #pragma once
 #include <string>
-#include <chrono>
 #include <vector>
 
 #define DEBUG_MODE
 #ifdef DEBUG_MODE
 #define LOG_DEBUG(message) (std::cout <<(message) << std::endl);
 #define LOG_DEBUG_PARAM(message,param) (std::cout <<(message) << param << std::endl);
+#else
+#define LOG_DEBUG(message) ;
+#define LOG_DEBUG_PARAM(message,param) ;
 #endif
 
 

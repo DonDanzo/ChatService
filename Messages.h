@@ -44,7 +44,6 @@ namespace Messages
 		size_t m_size;
 	};
 
-
 	struct CommunicationMessage
 	{
 	public:

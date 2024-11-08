@@ -9,20 +9,19 @@ Logger& Logger::Instance()
 
 void Logger::CalculateFileName()
 {
-    const std::time_t now = std::time(nullptr);                             // get the current time point
-    std::tm calendar_time;
-    auto res = localtime_s(&calendar_time, std::addressof(now));     // convert it to (local) calendar time
+    auto now = std::chrono::system_clock::now();
+    std::time_t now_time = std::chrono::system_clock::to_time_t(now);
 
-    if (res != 0)
+    std::tm calendar_time;  // Safe to use
+    if (localtime_s(&calendar_time, &now_time) != 0)
     {
-        //TODO: do some actions depending returned result
         LogError("Failed converting local time to calendar_time object");
         return;
     }
 
     m_fileName.clear();
     m_fileName.assign(Defs::LogFileHeadNameTemplate
-        + std::to_string(calendar_time.tm_year)
+        + std::to_string(calendar_time.tm_year - 100)
         + std::to_string(calendar_time.tm_mon)
         + std::to_string(calendar_time.tm_mday)
         + std::to_string(calendar_time.tm_hour)
@@ -61,8 +60,14 @@ void Logger::Log(const ChatMessages::UserMessage& msg)
     if (!m_file.is_open())
     {
         LogError(msg.DebugString());
+        return;
     }
-    m_file << "MsgType:[" << msg.type() << "], UserName:[" << msg.name() << "], IpAddress:[" << msg.ipaddress() << "], Time:[" << msg.timestamp() << "], Message:[" << msg.data() << "]" << std::endl;
+    m_file << "MsgType:[" 
+        << (msg.type() == ChatMessages::MessageType::Client ? "Client" : "System") << "], UserName:["
+        << msg.name() << "], IpAddress:["
+        << msg.ipaddress() << "], Time:["
+        << msg.timestamp() << "], Message:[" 
+        << msg.data() << "]" << std::endl;
 }
 void Logger::LogError(const std::string& msg1, const std::string& msg2, const std::string& msg3)
 {    
@@ -71,7 +76,8 @@ void Logger::LogError(const std::string& msg1, const std::string& msg2, const st
     {
         std::string errMsg = "Log: Not valid ofstream file, file is not open()";
         std::cerr << errMsg << std::endl;
-        throw(errMsg);
+        return;
+        //throw(errMsg);
     }
     std::cerr << msg1 << msg2 << msg3 << "\n";
 }

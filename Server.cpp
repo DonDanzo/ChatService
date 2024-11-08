@@ -150,7 +150,7 @@ void Server::Update(size_t maxMessagesCount, bool shouldWait)
 bool Server::OnClientConnect(std::shared_ptr<Connection> client) 
 {
 	LOG_DEBUG("Server::OnClientConnect()")
-	//TODO: Send req and wait response
+	//TODO: Some stronger check/handshake, Send req and wait expected response
 	Logger::Instance().Log("[SERVER] Client connected");
 	return true;
 }

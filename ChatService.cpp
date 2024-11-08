@@ -6,8 +6,10 @@
 #include "Defs.h"
 #include "Timer.h"
 
-#include "Client.h"
+#include "SpiderClient.h"
 #include "Server.h"
+#include <asio/asio.hpp>
+#include <ctime>
 
 using namespace std::chrono_literals;
 
@@ -66,41 +68,151 @@ std::future<void> StartHourTimer(const size_t& timerId)
 {
     return Timer::StartTimerAsync(std::chrono::seconds(CalculateTimerDuration()), Defs::NewHourTimerId, HandleOnTimer);
 }
+
+std::string CalculateTimeStamp()
+{
+    std::time_t now_time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+    std::tm calendar_time;
+    localtime_s(&calendar_time, &now_time);
+   
+    
+    return (calendar_time.tm_mday < 10 ? "0" : "") + std::to_string(calendar_time.tm_mday) + "-"// if day is in range [1:9] add "0" in front
+        + (calendar_time.tm_mon < 10 ? "0" : "") + std::to_string(calendar_time.tm_mon) + "-" //if month is in range [1:9] add "0" in front
+        + std::to_string(calendar_time.tm_year + 1900) + " "
+        + std::to_string(calendar_time.tm_hour) + ":"
+        + std::to_string(calendar_time.tm_min) + ":"
+        + std::to_string(calendar_time.tm_sec);
+}
+
 #pragma endregion
 
 
+#pragma region Client
+
+
+//TODO: that function can be done better, for now for the tests is enought
+void InitializeClientData(std::string& userName, std::string& serverAddress, uint16_t& serverPort )
+{
+    bool isInitializationDone = false;
+    while (!isInitializationDone)
+    {
+        std::cout << "Please insert your username: ";
+        std::cin >> userName;
+
+        serverAddress = "127.0.0.1";
+        serverPort = 23;
+
+        std::cout << "Default adress of server is: " << serverAddress << ":" << serverPort << std::endl;
+        std::cout << "Do you want to change it ? Press (Y/N) ";
+
+        std::string choice;
+        std::cin >> choice;
+
+        if (choice == "Y")
+        {
+            std::cout << "Please input Server's address:";
+            std::cin >> serverAddress;
+            std::cout << "Please input Server's port";
+            std::cin >> serverPort;
+            isInitializationDone = true;
+        }
+        else if (choice == "N")
+        {
+            isInitializationDone = true;
+        }
+        else
+        {
+            std::cout << "Incorect input, please try again." << std::endl;
+        }
+    }
+}
+
+void PrintToConsole(asio::io_context& io_context, const std::string& msg, std::string param="")
+{
+    io_context.post([&msg]() {
+        std::cout << msg << std::endl;
+    });
+}
+void RunInBackground(asio::io_context& io_context)
+{
+    std::thread([&io_context]() {
+        io_context.run();
+        }).detach();
+}
+
 void StartClient()
 {
-    ChatMessages::UserMessage msg;
-    msg.set_type(ChatMessages::MessageType::Client);
-    msg.set_name("0000000000");
-    msg.set_ipaddress("8888888888");
-    msg.set_timestamp("9999999999");
-    msg.set_data("AaAaAaAaAa");
+    SpiderClient client;
 
-    Client client;
-    client.Connect("127.0.0.1", 23);
+    std::string userName;
+    std::string serverAddress;
+    uint16_t serverPort;
+    InitializeClientData(userName, serverAddress, serverPort);
 
-    //client.Wait();
+    client.Connect(serverAddress, serverPort);
 
-    client.Send(msg);
+    ChatMessages::UserMessage userMsg;
+    userMsg.set_type(ChatMessages::MessageType::Client);
+    userMsg.set_name(userName);
 
+    userMsg.set_ipaddress("127.4.3.2");//TODO: not implemented yet, just for test
+    
+    userMsg.set_timestamp(CalculateTimeStamp());
+
+    userMsg.set_data("Hello!");
+
+    //client.Send(msg);
+
+    bool shouldWrite = false;
+    std::string msgDataStr;
+    int cnt = 0;
+
+    asio::io_context ioContext;
+    RunInBackground(ioContext);
 
     while (true)
     {
-        client.Send(msg);
+     
+        shouldWrite = GetAsyncKeyState(VK_F1) & 0x8000;
+        
         if (client.IsConnected())
         {
+            if (shouldWrite)
+            {
+                PrintToConsole(ioContext, "Please insert your text :");
+                if (GetForegroundWindow() == GetConsoleWindow())
+                {
+                    bool res2 = GetAsyncKeyState(VK_F1) & 0x8000;
+                    shouldWrite = false;
+                    
+                    getline(std::cin, msgDataStr);
+
+                    PrintToConsole(ioContext, "\nInputed text: ", msgDataStr);
+
+                    userMsg.set_timestamp(CalculateTimeStamp());
+                    userMsg.set_data(msgDataStr);
+                    client.Send(userMsg);
+                }
+            }
+            
+            client.ProcessIncomeMessages();
             continue;
         }
         break;
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
     }
 
 }
+
+#pragma endregion
+
 void StartServer(size_t serverPort = 11111)
 {
     Server server(serverPort);
     server.Start();
+
+    
 
     while (true)
     {
@@ -112,7 +224,9 @@ void StartServer(size_t serverPort = 11111)
 
 int main(int argc, char* argv [])
 {
-    StartServer();
+    Logger::Instance().Log("ECTRA");
+
+    //StartServer();
     StartClient();
 
     auto future = StartHourTimer(Defs::NewHourTimerId);
