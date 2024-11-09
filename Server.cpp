@@ -69,41 +69,16 @@ void Server::WaitForClientConnection()
 						std::make_shared<Connection>(Owner::Server,
 							m_asioContext, std::move(socket), m_queuedMessagesIn);
 
-					if (OnClientConnect(newconn))
-					{
-						m_dequedConnections.push_back(std::move(newconn));
-						m_dequedConnections.back()->ConnectToClient(m_clientsCount++);
-						Logger::Instance().Log("[SERVER] Connection Approved: ", std::to_string(m_dequedConnections.back()->GetID()));
-					}
-					else
-					{
-						Logger::Instance().LogError("[SERVER] Connection Denied: ", std::to_string(m_dequedConnections.back()->GetID()));
-					}
+					newconn.get()->SetConnectionState(State::RequestToConnect);
+					Logger::Instance().Log("[SERVER] Connection requested to connect: ", std::to_string(newconn->GetID()));
 				}
 			}
 			else
 			{
-				Logger::Instance().LogError("[SERVER] New Connection Error: ", ec.message());
+				Logger::Instance().LogError("[SERVER] New Connection Request Error: ", ec.message());
 			}
 			WaitForClientConnection();
 		});
-}
-
-void Server::MessageClient(std::shared_ptr<Connection> client, const ChatMessages::UserMessage& msg)
-{
-	LOG_DEBUG("Server::MessageClient()")
-	if (client && client->IsConnected())
-	{
-		client->Send(msg);
-	}
-	else
-	{
-		OnClientDisconnect(client);
-		client.reset();
-
-		m_dequedConnections.erase(
-			std::remove(m_dequedConnections.begin(), m_dequedConnections.end(), client), m_dequedConnections.end());
-	}
 }
 
 void Server::MessageAllClients(Messages::CommunicationMessage& msg, std::shared_ptr<Connection> pIgnoreClient)
@@ -111,7 +86,9 @@ void Server::MessageAllClients(Messages::CommunicationMessage& msg, std::shared_
 	LOG_DEBUG("Server::MessageAllClients()")
 	bool isThereInvalidClient = false;
 
-	for (auto& client : m_dequedConnections)
+	std::vector<std::pair<std::string, std::shared_ptr<Connection>>> disconnectedClients;
+
+	for (auto& [clientName, client] : m_dequedConnections)
 	{
 		if (client && client->IsConnected())
 		{
@@ -120,14 +97,15 @@ void Server::MessageAllClients(Messages::CommunicationMessage& msg, std::shared_
 		}
 		else
 		{
-			OnClientDisconnect(client);//client is disconnected, so remove it			
-			isThereInvalidClient = true;
+			disconnectedClients.push_back(std::pair <std::string, std::shared_ptr<Connection>>(clientName, client));//store in vector all clients that are not connected
 		}
 	}
 
-	if (isThereInvalidClient)
-		m_dequedConnections.erase(
-			std::remove(m_dequedConnections.begin(), m_dequedConnections.end(), nullptr), m_dequedConnections.end());
+
+	for (auto& [userName, client] : disconnectedClients)// disconnect all not connected clients
+	{
+		DisconnectClient(userName, client);
+	}
 }
 
 void Server::Update(size_t maxMessagesCount, bool shouldWait)
@@ -147,27 +125,23 @@ void Server::Update(size_t maxMessagesCount, bool shouldWait)
 	}
 }
 
-bool Server::OnClientConnect(std::shared_ptr<Connection> client) 
+void Server::DisconnectClient(const std::string& userName, std::shared_ptr<Connection> client)
 {
-	LOG_DEBUG("Server::OnClientConnect()")
-	//TODO: Some stronger check/handshake, Send req and wait expected response
-	Logger::Instance().Log("[SERVER] Client connected");
-	return true;
-}
-
-void Server::OnClientDisconnect(std::shared_ptr<Connection> client) 
-{
-	LOG_DEBUG("Server::OnClientDisconnect()")
-	Logger::Instance().Log("[SERVER] Disconnected client: ", std::to_string(client->GetID()));
+	LOG_DEBUG("Server::DisconnectClient()")
+		
+	auto it = m_dequedConnections.begin();
+	while (it != m_dequedConnections.end())
+	{
+		if (it->first == userName)
+		{
+			it->second.get()->Disconnect();
+			it->second.get()->SetConnectionState(State::None);
+			m_dequedConnections.erase(it);
+			break;
+		}
+	}	
+	client.get()->SetConnectionState(State::None);
 	client.reset();
 	m_clientsCount--;
-}
-
-// Called when a message arrives
-void Server::OnMessage(std::shared_ptr<Connection> client, Messages::CommunicationMessage& msg) 
-{
-	LOG_DEBUG("Server::OnMessage()")
-
-		MessageAllClients(msg, client);//send the message too all connected clients, ignore current client
-	 //Logger::Instance().Log("Server Ping: ", std::to_string(client->GetID()));
+	OnClientDisconnect(userName, client);
 }

@@ -40,17 +40,17 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -78,9 +78,11 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\$(TargetName)\</OutDir>
+    <IntDir>$(SolutionDir)$(Platform)\$(Configuration)\$(TargetName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>false</LinkIncremental>
+    <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -122,50 +124,53 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\install;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\install</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libprotobufd.lib;libprotocd.lib;absl_log_internal_message.lib;absl_log_internal_check_op.lib;absl_log_internal_nullguard.lib;absl_strings.lib;absl_str_format_internal.lib;absl_cord.lib;absl_city.lib;absl_hash.lib;utf8_validity.lib;absl_raw_logging_internal.lib;absl_synchronization.lib;absl_base.lib;absl_spinlock_wait.lib;absl_raw_hash_set.lib;absl_bad_variant_access.lib;absl_throw_delegate.lib;absl_cordz_info.lib;absl_cord_internal.lib;absl_status.lib;absl_statusor.lib;absl_kernel_timeout_internal.lib;absl_log_internal_conditions.lib;absl_time.lib;absl_strerror.lib;absl_log_internal_globals.lib;absl_examine_stack.lib;absl_log_globals.lib;absl_log_internal_format.lib;absl_log_internal_log_sink_set.lib;absl_strings_internal.lib;absl_malloc_internal.lib;absl_graphcycles_internal.lib;absl_log_internal_proto.lib;absl_int128.lib;absl_crc_cord_state.lib;absl_stacktrace.lib;absl_symbolize.lib;absl_log_sink.lib;absl_low_level_hash.lib;absl_cordz_handle.lib;absl_time_zone.lib;absl_crc32c.lib;absl_crc_internal.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libprotobufd.lib;libprotocd.lib;absl_log_internal_message.lib;absl_log_internal_check_op.lib;absl_log_internal_nullguard.lib;absl_strings.lib;absl_str_format_internal.lib;absl_cord.lib;absl_city.lib;absl_hash.lib;utf8_validity.lib;absl_raw_logging_internal.lib;absl_synchronization.lib;absl_base.lib;absl_spinlock_wait.lib;absl_raw_hash_set.lib;absl_bad_variant_access.lib;absl_throw_delegate.lib;absl_cordz_info.lib;absl_cord_internal.lib;absl_status.lib;absl_statusor.lib;absl_kernel_timeout_internal.lib;absl_log_internal_conditions.lib;absl_time.lib;absl_strerror.lib;absl_log_internal_globals.lib;absl_examine_stack.lib;absl_log_globals.lib;absl_log_internal_format.lib;absl_log_internal_log_sink_set.lib;absl_strings_internal.lib;absl_malloc_internal.lib;absl_graphcycles_internal.lib;absl_log_internal_proto.lib;absl_int128.lib;absl_crc_cord_state.lib;absl_stacktrace.lib;absl_symbolize.lib;absl_log_sink.lib;absl_low_level_hash.lib;absl_cordz_handle.lib;absl_time_zone.lib;absl_crc32c.lib;absl_crc_internal.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level1</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\install</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libprotobuf.lib;libprotoc.lib;absl_log_internal_message.lib;absl_log_internal_check_op.lib;absl_log_internal_nullguard.lib;absl_strings.lib;absl_str_format_internal.lib;absl_cord.lib;absl_city.lib;absl_hash.lib;utf8_validity.lib;absl_raw_logging_internal.lib;absl_synchronization.lib;absl_base.lib;absl_spinlock_wait.lib;absl_raw_hash_set.lib;absl_bad_variant_access.lib;absl_throw_delegate.lib;absl_cordz_info.lib;absl_cord_internal.lib;absl_status.lib;absl_statusor.lib;absl_kernel_timeout_internal.lib;absl_log_internal_conditions.lib;absl_time.lib;absl_strerror.lib;absl_log_internal_globals.lib;absl_examine_stack.lib;absl_log_globals.lib;absl_log_internal_format.lib;absl_log_internal_log_sink_set.lib;absl_strings_internal.lib;absl_malloc_internal.lib;absl_graphcycles_internal.lib;absl_log_internal_proto.lib;absl_int128.lib;absl_crc_cord_state.lib;absl_stacktrace.lib;absl_symbolize.lib;absl_log_sink.lib;absl_low_level_hash.lib;absl_cordz_handle.lib;absl_time_zone.lib;absl_crc32c.lib;absl_crc_internal.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ChatService.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="Connection.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="messages.pb.cc" />
     <ClCompile Include="Server.cpp" />
-    <ClCompile Include="SpiderClient.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h" />
     <ClInclude Include="Connection.h" />
     <ClInclude Include="Defs.h" />
+    <ClInclude Include="Helper.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Messages.h" />
     <ClInclude Include="messages.pb.h" />
-    <ClInclude Include="SpiderClient.h" />
     <ClInclude Include="ThreadSafeQueue.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="Timer.h" />

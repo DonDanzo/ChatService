@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Defs.h"
+#include "messages.pb.h"
 
 namespace Messages
 {
@@ -50,21 +51,28 @@ namespace Messages
 		CommunicationMessage() : m_header(), m_body()
 		{
 		}
-		CommunicationMessage(const MessageHeader& header, const std::vector<uint8_t>& body)
-			: m_header(header), m_body(body)
+		CommunicationMessage(const Types type, ChatMessages::UserMessage& userMsg)
+			: m_header(type, userMsg.ByteSizeLong())
+			, m_body(userMsg.ByteSizeLong())
 		{
+			userMsg.SerializeToArray(m_body.data(), static_cast<int>(m_body.size()));//write protobuf's message data to m_body
 		}
 
 		void SetHeader(const MessageHeader& header) { m_header = header; }
 		MessageHeader& GetHeader() { return m_header; };
 
 		void SetBody(std::vector<uint8_t>& body) { m_body = body; }
-		std::vector<uint8_t>& GetBody() { return m_body; };
+		std::vector<uint8_t>& GetBody() 
+		{ 
+			return m_body; 
+		};
 
 		size_t Size() { return MessageHeaderSizes::Header + m_body.size(); }
 	private:
 		MessageHeader m_header;
 		std::vector<uint8_t> m_body;
 	};
+
+
 
 }

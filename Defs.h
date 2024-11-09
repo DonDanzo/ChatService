@@ -32,4 +32,6 @@ namespace Defs
 	const auto MaxClientsCount = 1000;
 	const auto MaxBodyLength = 5000;//it can be send message with maximum 5000 symbols
 
+	const std::string ConnectHandshakeMessageValue = "Drasti!";
+
 };

@@ -14,7 +14,7 @@ Connection::Connection(Owner parent, asio::io_context& asioContext, asio::ip::tc
 	m_ownerType = parent;
 }
 
-uint32_t Connection::GetID() const
+size_t Connection::GetID() const
 {
 	return m_id;
 }
@@ -62,7 +62,6 @@ void Connection::ConnectToServer(const asio::ip::tcp::resolver::results_type& en
 		});
 }
 
-
 void Connection::Disconnect()
 {
 	LOG_DEBUG("Connection::Disconnect()")
@@ -75,10 +74,28 @@ bool Connection::IsConnected() const
 	return m_socket.is_open();
 }
 
+void Connection::SetLastIncomeMessage(const Messages::CommunicationMessage& msg)
+{
+	m_incomeMsg = msg;
+}
+Messages::CommunicationMessage& Connection::GetLastIncomeMessage()
+{
+	return m_incomeMsg;
+}
+
+void Connection::SetConnectionState(const State& conState)
+{
+	m_connectionState = conState;
+}
+State& Connection::GetConnectionState()
+{
+	return m_connectionState;
+}
 
 
 void Connection::Send(Messages::CommunicationMessage& msg)
 {
+	LOG_DEBUG("Connection::Send(Messages::CommunicationMessage& msg")
 		asio::async_write(m_socket, asio::buffer(&msg.GetHeader(), Messages::MessageHeaderSizes::Header),// send converted Communication message as raw data in the socket
 		[&, this](std::error_code ec, std::size_t length)
 		{
@@ -93,7 +110,7 @@ void Connection::Send(Messages::CommunicationMessage& msg)
 			}
 		});
 
-		asio::async_write(m_socket, asio::buffer(&msg.GetBody(), msg.GetBody().size()),// send converted Communication message as raw data in the socket
+		asio::async_write(m_socket, asio::buffer(msg.GetBody().data(), msg.GetBody().size()),// send converted Communication message as raw data in the socket
 			[&, this](std::error_code ec, std::size_t length)
 			{
 				if (ec)
@@ -114,6 +131,7 @@ void Connection::Send(Messages::CommunicationMessage& msg)
 
 void Connection::Send(const ChatMessages::UserMessage& msg)
 {
+	LOG_DEBUG("Connection::Send(const ChatMessages::UserMessage& msg)")
 	asio::post(m_asioContext,
 		[this, msg]()
 		{
@@ -145,15 +163,12 @@ void Connection::WriteData()
 		msgType = Messages::Types::System;
 	}
 
-	Messages::MessageHeader commMsgHeader(msgType, userMsg.ByteSizeLong());//create message header with message type and body size
-	std::vector<uint8_t> userMsgRawData(userMsg.ByteSizeLong());
-	userMsg.SerializeToArray(userMsgRawData.data(), userMsgRawData.size());//write protobuf's message data to vector uint8_t
-	Messages::CommunicationMessage commMsgToSend(commMsgHeader, userMsgRawData);//that message is wrapper of header and protobuf message
+	Messages::CommunicationMessage commMsgToSend(msgType, userMsg);//that message is wrapper of header and protobuf message
 
-	asio::async_write(m_socket, asio::buffer(&commMsgHeader, Messages::MessageHeaderSizes::Header),// send converted Communication message as raw data in the socket
+	asio::async_write(m_socket, asio::buffer(&commMsgToSend.GetHeader(), Messages::MessageHeaderSizes::Header),// send converted Communication message as raw data in the socket
 		[&, this](std::error_code ec, std::size_t length)
 		{
-			LOG_DEBUG("Connection::WriteData() - ASYNC")
+			LOG_DEBUG("Connection::WriteData() - ASYNC HEADER")
 			if (ec)
 			{
 				Logger::Instance().LogError("Failed to sending message header with ID: ", std::to_string(m_id));
@@ -164,9 +179,10 @@ void Connection::WriteData()
 			}
 		});
 
-	asio::async_write(m_socket, asio::buffer(userMsgRawData.data(), userMsgRawData.size()),// send converted Communication message as raw data in the socket
+	asio::async_write(m_socket, asio::buffer(commMsgToSend.GetBody().data(), commMsgToSend.GetBody().size()),// send converted Communication message as raw data in the socket
 		[&, this](std::error_code ec, std::size_t length)
 		{
+			LOG_DEBUG("Connection::WriteData() - ASYNC BODY")
 			if (ec)
 			{
 				Logger::Instance().LogError("Failed to sending message body with ID: ", std::to_string(m_id));
@@ -189,6 +205,11 @@ void Connection::ReadHeader()
 	asio::async_read(m_socket, asio::buffer(&m_incomeMsg.GetHeader(), Messages::MessageHeaderSizes::Header),
 		[this](std::error_code ec, std::size_t length)
 		{
+			if (m_incomeMsg.GetHeader().GetSize() == 0)
+			{
+				LOG_DEBUG("Connection::ReadHeader() - Some strange empty message received, go ReadHeadeer() again")
+				ReadHeader();
+			}
 			LOG_DEBUG("Connection::ReadHeader()")
 			if (ec)
 			{
