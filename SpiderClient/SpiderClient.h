@@ -3,7 +3,6 @@
 
 class SpiderClient : public Client
 {
-	public:
-		void ProcessIncomeMessages() override;
+public:
+	void ProcessIncomeMessages() override;
 };
-
