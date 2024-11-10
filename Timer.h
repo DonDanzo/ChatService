@@ -10,6 +10,7 @@
 class Timer
 {
 public:
+	//Start async timer with ID, time duration and callback function
 	template<typename _Rep, typename _Period>
 	static std::future<void> StartTimerAsync(std::chrono::duration<_Rep, _Period> duration, size_t timerId, std::function<void(size_t)> callback)
 	{

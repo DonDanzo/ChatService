@@ -6,9 +6,10 @@
 
 // Constructor: Specify Owner, connect to context, transfer the socket
 //				Provide reference to incoming message queue
-Connection::Connection(Owner parent, asio::io_context& asioContext, asio::ip::tcp::socket socket, ThreadSafeQueue<std::pair<std::shared_ptr<Connection>, Messages::CommunicationMessage>>& inputQueue)
+Connection::Connection(Owner parent, asio::io_context& asioContext, asio::ip::tcp::socket socket, size_t connectionId, ThreadSafeQueue<std::pair<std::shared_ptr<Connection>, Messages::CommunicationMessage>>& inputQueue)
 	: m_asioContext(asioContext), 
 	m_socket(std::move(socket)), 
+	m_id(connectionId),
 	m_queuedIncomeMessages(inputQueue)
 {
 	m_ownerType = parent;
@@ -19,7 +20,7 @@ size_t Connection::GetID() const
 	return m_id;
 }
 
-void Connection::ConnectToClient(uint32_t userId)
+void Connection::ConnectToClient()
 {
 	LOG_DEBUG("Connection::ConnectToClient()")
 	if (m_ownerType != Owner::Server)
@@ -34,7 +35,6 @@ void Connection::ConnectToClient(uint32_t userId)
 		return;
 	}
 
-	m_id = userId;
 	ReadHeader();
 }
 
@@ -74,25 +74,6 @@ bool Connection::IsConnected() const
 	return m_socket.is_open();
 }
 
-void Connection::SetLastIncomeMessage(const Messages::CommunicationMessage& msg)
-{
-	m_incomeMsg = msg;
-}
-Messages::CommunicationMessage& Connection::GetLastIncomeMessage()
-{
-	return m_incomeMsg;
-}
-
-void Connection::SetConnectionState(const State& conState)
-{
-	m_connectionState = conState;
-}
-State& Connection::GetConnectionState()
-{
-	return m_connectionState;
-}
-
-
 void Connection::Send(Messages::CommunicationMessage& msg)
 {
 	LOG_DEBUG("Connection::Send(Messages::CommunicationMessage& msg")
@@ -108,6 +89,7 @@ void Connection::Send(Messages::CommunicationMessage& msg)
 				Logger::Instance().LogError("Connection closed ... ");
 				return;
 			}
+			Logger::Instance().Log("Connection::Send(Messages::CommunicationMessage& msg) HEADER", msg);
 		});
 
 		asio::async_write(m_socket, asio::buffer(msg.GetBody().data(), msg.GetBody().size()),// send converted Communication message as raw data in the socket
@@ -122,12 +104,9 @@ void Connection::Send(Messages::CommunicationMessage& msg)
 					Logger::Instance().LogError("Connection closed ... ");
 					return;
 				}
+				Logger::Instance().Log("Connection::Send(Messages::CommunicationMessage& msg) BODY", msg);
 			});
-
-
-
 }
-
 
 void Connection::Send(const ChatMessages::UserMessage& msg)
 {
@@ -142,6 +121,7 @@ void Connection::Send(const ChatMessages::UserMessage& msg)
 			{
 				WriteData();
 			}
+			Logger::Instance().Log("Connection::Send(const ChatMessages::UserMessage& msg)", msg);
 		});
 }
 
@@ -177,6 +157,7 @@ void Connection::WriteData()
 				Logger::Instance().LogError("Connection closed ... ");
 				return;
 			}
+			Logger::Instance().Log("Connection::WriteData() - HEADER", commMsgToSend);
 		});
 
 	asio::async_write(m_socket, asio::buffer(commMsgToSend.GetBody().data(), commMsgToSend.GetBody().size()),// send converted Communication message as raw data in the socket
@@ -196,6 +177,7 @@ void Connection::WriteData()
 			{
 				WriteData();
 			}
+			Logger::Instance().Log("Connection::WriteData() - BODY", commMsgToSend);
 		});
 }
 
@@ -205,19 +187,19 @@ void Connection::ReadHeader()
 	asio::async_read(m_socket, asio::buffer(&m_incomeMsg.GetHeader(), Messages::MessageHeaderSizes::Header),
 		[this](std::error_code ec, std::size_t length)
 		{
-			if (m_incomeMsg.GetHeader().GetSize() == 0)
-			{
-				LOG_DEBUG("Connection::ReadHeader() - Some strange empty message received, go ReadHeadeer() again")
-				ReadHeader();
-			}
 			LOG_DEBUG("Connection::ReadHeader()")
+
+			Logger::Instance().Log("Connection::ReadHeader() - MsgSize:[", std::to_string(m_incomeMsg.GetHeader().GetSize()), "]");
+
 			if (ec)
 			{
 				Logger::Instance().LogError("Failed reading header of message with ID: ", std::to_string(m_id));
 				Logger::Instance().LogError(ec.message());
-				m_socket.close();
+				if(m_socket.is_open())
+					m_socket.close();
 				Logger::Instance().LogError("Connection closed ... ");
-				return;
+				ReadHeader();
+				//return;
 			}
 			
 			if (m_incomeMsg.GetHeader().GetType() != Messages::Types::Client
@@ -256,6 +238,7 @@ void Connection::ReadBody()
 
 			// message read successfully
 			AddToIncomingMessageQueue();			
+			Logger::Instance().Log("Connection::ReadBody()", m_incomeMsg);
 		});
 }
 
@@ -270,4 +253,31 @@ void Connection::AddToIncomingMessageQueue()
 	
 	//read next message's header
 	ReadHeader();
+}
+
+void Connection::SetLastIncomeMessage(const Messages::CommunicationMessage& msg)
+{
+	m_incomeMsg = msg;
+}
+Messages::CommunicationMessage& Connection::GetLastIncomeMessage()
+{
+	return m_incomeMsg;
+}
+
+void Connection::SetConnectionState(const State& conState)
+{
+	m_connectionState = conState;
+}
+State& Connection::GetConnectionState()
+{
+	return m_connectionState;
+}
+
+void Connection::SetConnectionClientName(const std::string& clientUserName)
+{
+	m_clientUserName = clientUserName;
+}
+const std::string& Connection::GetConnectionClientName() const
+{
+	return m_clientUserName;
 }

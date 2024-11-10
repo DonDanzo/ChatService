@@ -67,10 +67,14 @@ void Server::WaitForClientConnection()
 
 					std::shared_ptr<Connection> newconn =
 						std::make_shared<Connection>(Owner::Server,
-							m_asioContext, std::move(socket), m_queuedMessagesIn);
+							m_asioContext, std::move(socket), ++m_clientsCount, m_queuedMessagesIn);
 
-					newconn.get()->SetConnectionState(State::RequestToConnect);
-					Logger::Instance().Log("[SERVER] Connection requested to connect: ", std::to_string(newconn->GetID()));
+					//OnClientTryingConnect(newconn);
+					newconn->SetConnectionState(State::RequestToConnect);
+					newconn->ConnectToClient();
+					m_dequedConnections.push_back(std::move(newconn));
+
+					Logger::Instance().Log("[SERVER] Connection pending authentication: ", std::to_string(m_dequedConnections.back()->GetID()));
 				}
 			}
 			else
@@ -84,11 +88,13 @@ void Server::WaitForClientConnection()
 void Server::MessageAllClients(Messages::CommunicationMessage& msg, std::shared_ptr<Connection> pIgnoreClient)
 {
 	LOG_DEBUG("Server::MessageAllClients()")
+
+		Logger::Instance().Log("Server::MessageAllClients()", msg);
 	bool isThereInvalidClient = false;
 
-	std::vector<std::pair<std::string, std::shared_ptr<Connection>>> disconnectedClients;
+	std::vector<std::shared_ptr<Connection>> disconnectedClients;
 
-	for (auto& [clientName, client] : m_dequedConnections)
+	for (auto& client : m_dequedConnections)
 	{
 		if (client && client->IsConnected())
 		{
@@ -97,14 +103,14 @@ void Server::MessageAllClients(Messages::CommunicationMessage& msg, std::shared_
 		}
 		else
 		{
-			disconnectedClients.push_back(std::pair <std::string, std::shared_ptr<Connection>>(clientName, client));//store in vector all clients that are not connected
+			disconnectedClients.push_back(std::shared_ptr<Connection>(client));//store in vector all clients that are not connected
 		}
 	}
 
 
-	for (auto& [userName, client] : disconnectedClients)// disconnect all not connected clients
+	for (auto& client : disconnectedClients)// disconnect all not connected clients
 	{
-		DisconnectClient(userName, client);
+		DisconnectClient(client);
 	}
 }
 
@@ -125,23 +131,25 @@ void Server::Update(size_t maxMessagesCount, bool shouldWait)
 	}
 }
 
-void Server::DisconnectClient(const std::string& userName, std::shared_ptr<Connection> client)
+void Server::DisconnectClient(std::shared_ptr<Connection> client)
 {
 	LOG_DEBUG("Server::DisconnectClient()")
 		
 	auto it = m_dequedConnections.begin();
 	while (it != m_dequedConnections.end())
 	{
-		if (it->first == userName)
+		if (it->get()->GetID() == client->GetID())
 		{
-			it->second.get()->Disconnect();
-			it->second.get()->SetConnectionState(State::None);
 			m_dequedConnections.erase(it);
 			break;
 		}
+		it++;
 	}	
+
+	it->get()->Disconnect();
+	it->get()->SetConnectionState(State::None);
 	client.get()->SetConnectionState(State::None);
+	OnClientDisconnect(client);
 	client.reset();
 	m_clientsCount--;
-	OnClientDisconnect(userName, client);
 }

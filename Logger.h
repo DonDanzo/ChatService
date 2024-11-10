@@ -4,7 +4,7 @@
 #include <fstream> 
 #include <mutex>
 #include "messages.pb.h"
-
+#include "Messages.h"
 
 class Logger
 {
@@ -14,7 +14,8 @@ public:
     void OpenFile();// open file, where log will be written
     void CloseFile();//close current open files, where log is writting
     void Log(const std::string& msg1, const std::string& msg2 = "", const std::string& msg3 = "");// log any string message
-    void Log(const ChatMessages::UserMessage& msg);//log protobuf's UserNessages
+    void Log(const std::string& caller, const ChatMessages::UserMessage& msg);//log protobuf's UserNessages
+    void Log(const std::string& caller, Messages::CommunicationMessage& msg);//log communication message that contains protobuf's message
     void LogError(const std::string& msg1, const std::string& msg2 = "", const std::string& msg3 = "");//log errors
 
 private:

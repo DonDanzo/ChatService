@@ -22,11 +22,11 @@
     <Filter Include="Definitions">
       <UniqueIdentifier>{ef8cee1a-4375-4806-a02d-d8760b5a250a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Helper">
+      <UniqueIdentifier>{04da349e-cd97-47af-a4cd-8cf6ffc817b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ChatService.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Logger.cpp">
       <Filter>Logger</Filter>
     </ClCompile>
@@ -41,9 +41,6 @@
     </ClCompile>
     <ClCompile Include="messages.pb.cc">
       <Filter>Definitions</Filter>
-    </ClCompile>
-    <ClCompile Include="SpiderClient.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -74,8 +71,8 @@
     <ClInclude Include="messages.pb.h">
       <Filter>Definitions</Filter>
     </ClInclude>
-    <ClInclude Include="SpiderClient.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Helper.h">
+      <Filter>Helper</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

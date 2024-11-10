@@ -20,6 +20,9 @@ namespace Messages
 		constexpr auto Header = Type + Size;
 	}
 
+	//TODO: actually check if there can be generated protobuf message for header too, and to be used
+	//then these structures will be deprecated and not needed
+	
 	struct MessageHeader
 	{
 	public:
@@ -72,7 +75,5 @@ namespace Messages
 		MessageHeader m_header;
 		std::vector<uint8_t> m_body;
 	};
-
-
 
 }

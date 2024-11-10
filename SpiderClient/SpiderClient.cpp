@@ -34,17 +34,13 @@ void SpiderClient::ProcessIncomeMessages()
 		commMsgType = "Client";
 		userMsg.ParseFromArray(commMmsg.GetBody().data(), static_cast<int>(commMmsg.GetBody().size()));
 
-		Logger::Instance().Log(userMsg);
+		Logger::Instance().Log("SpiderClient::ProcessIncomeMessages()", userMsg);
 	}
-
-	std::cout << "Income message with Type:[" << commMsgType << ", size:[" << commMmsg.GetHeader().GetSize() << "], Data:[" << userMsg.data() << "]." << std::endl;
+	std::cout << "<--:{" << commMsgType << "}, [" << userMsg.name() << "] : \"" << userMsg.data() << ".\"" << std::endl;
 }
-
 
 void ClearLastConsoleLine() {
     //// Clear the current line and return the cursor to the beginning of it
-
-
     std::cout << "\033[2K\033[0G" << std::flush;
 }
 
@@ -56,9 +52,6 @@ void InitializeClientData(std::string& userName, std::string& serverAddress, uin
     {
         std::cout << "Please insert your username: ";
         std::cin >> userName;
-
-        serverAddress = "127.0.0.1";
-        serverPort = 11111;
 
         std::cout << "Default adress of server is: " << serverAddress << ":" << serverPort << std::endl;
         std::cout << "Do you want to change it ? Press (Y/N) ";
@@ -98,13 +91,55 @@ void RunInBackground(asio::io_context& io_context)
         }).detach();
 }
 
+bool m_isHourTimerFinished = false;
+std::atomic<bool> m_isInactiveTimerFinished = false;
+static void HandleOnTimer(size_t timerId)
+{
+        LOG_DEBUG_PARAM("Handle Timer with ID: ", timerId)
+            Logger::Instance().Log("Handle Timer with ID: ", std::to_string(timerId));
+
+       if (timerId == Defs::NewHourTimerId)
+       {
+           m_isHourTimerFinished = true;
+           //close the file
+           Logger::Instance().CloseFile();
+           //open it again, it will create new files, becasue it is new hour and name will be different
+           Logger::Instance().OpenFile();
+       }
+        
+        if (timerId == Defs::InactivityTimerId)
+        {
+            m_isInactiveTimerFinished = true;
+            Logger::Instance().Log("Client InAvailability timer occurs!");
+        }        
+}
+
+
+static std::future<void> StartTimerAsync( std::chrono::duration<int> duration, size_t timerId, std::function<void(size_t)> callback, std::atomic<bool>& stopFlag)
+{
+    return std::async(std::launch::async, [duration, timerId, callback, &stopFlag]() 
+     {
+        while (!stopFlag) 
+        {  // Keep running until stopFlag is set to true
+            std::this_thread::sleep_for(duration);
+            if (!stopFlag) { // Check the stop flag again after sleep
+                callback(timerId);
+            }
+        }
+    });
+}
+
+
+
 void StartClient()
 {
     SpiderClient client;
 
     std::string userName;
-    std::string serverAddress;
-    uint16_t serverPort;
+    std::string serverAddress =  "127.0.0.1";
+    uint16_t serverPort = 11111;
+
+
     InitializeClientData(userName, serverAddress, serverPort);
 
     client.Connect(serverAddress, serverPort);
@@ -112,7 +147,7 @@ void StartClient()
     ChatMessages::UserMessage userMsg = Helper::CreateUserMessage(
         ChatMessages::MessageType::Client,
         userName,
-        "127.4.3.2",
+        Helper::GetLocalMachineAddress(),
         Helper::CalculateTimeStamp(),
         Defs::ConnectHandshakeMessageValue);
 
@@ -125,72 +160,72 @@ void StartClient()
     asio::io_context ioContext;
     RunInBackground(ioContext);
 
+    //start timers for logging and inactivity
+    auto futureLogFileHourTimer = Helper::StartHourTimer(Defs::NewHourTimerId, HandleOnTimer);
+    auto futureInactivityTimer = StartTimerAsync(std::chrono::seconds(Defs::InactivityTimeSeconds), Defs::InactivityTimerId, HandleOnTimer, m_isInactiveTimerFinished);
+    Logger::Instance().Log("Log and activity timers started!");
+
     while (true)
     {
-        //std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        if (m_isHourTimerFinished)
+        {
+            m_isHourTimerFinished = false;
+            futureLogFileHourTimer = Helper::StartHourTimer(Defs::NewHourTimerId, HandleOnTimer);
+        }
+
+        if (m_isInactiveTimerFinished)
+        {
+            break;
+        }
+
 
         shouldWrite = GetAsyncKeyState(VK_F1) & 0x8000;//press F1 key to input data message via keyboard
+        //std::cout <<"should: "<< shouldWrite;
         if (client.IsConnected())
         {
             if (shouldWrite)
             {
                 if (GetForegroundWindow() == GetConsoleWindow())
                 {
-                    bool res2 = GetAsyncKeyState(VK_F1) & 0x8000;
                     shouldWrite = false;
 
                     // std::cin.clear();
                     // ClearLastConsoleLine();
                     getline(std::cin, msgDataStr);
 
+                    if (msgDataStr.empty())//TODO: something strange behavior, need to be investigated
+                        continue;
 
                     userMsg.set_timestamp(Helper::CalculateTimeStamp());
                     userMsg.set_data(msgDataStr);
                     client.Send(userMsg);
+
+                    //logic for reseting timer doesnt work 
+                    // TODO: investigate or find better way
+                    //if (m_isInactiveTimerFinished == false)
+                    //{
+                    //    m_isInactiveTimerFinished = true;//stop the timer
+                    //    m_isInactiveTimerFinished = false;//put it false again before start imer
+                    //    //StartTimerAsync(std::chrono::seconds(Defs::InactivityTimeSeconds), Defs::InactivityTimerId, HandleOnTimer, m_isInactiveTimerFinished);//restart timer
+                    //    Logger::Instance().Log("Inactive timer restarted!");
+                    //}
                 }
             }
-
             client.ProcessIncomeMessages();
             continue;
         }
-        Logger::Instance().Log("Client connection closed!");
         break;//if client is disconnected break the loop, and program will ends
-
     }
 
+    client.Disconnect();
+    ioContext.stop();
+    std::cout << "Program ended \n";
+    Logger::Instance().Log("Client connection closed!");
+    std::_Exit(1);//TODO: check which resource keeps app to not over
 }
 
 
-
-bool m_isHourTimerFinished = false;
-static void HandleOnTimer(size_t timerId)
-{
-    LOG_DEBUG_PARAM("Handle Timer with ID: ", timerId)
-
-        if (timerId == Defs::NewHourTimerId)
-        {
-            m_isHourTimerFinished = true;
-            //close the file
-            Logger::Instance().CloseFile();
-            //open it again, it will create new files, becasue it is new hour and name will be different
-            Logger::Instance().OpenFile();
-        }
-}
 int main()
 {
     StartClient();
-
-    auto future = Helper::StartHourTimer(Defs::NewHourTimerId, HandleOnTimer);
-    int cnt = 0;
-    while (true)
-    {
-        LOG_DEBUG_PARAM("cnnt: ", ++cnt)
-
-            std::this_thread::sleep_for(10s);
-        if (m_isHourTimerFinished)
-        {
-            m_isHourTimerFinished = false;
-            future = Helper::StartHourTimer(Defs::NewHourTimerId, HandleOnTimer);
-        }
-    }
 }

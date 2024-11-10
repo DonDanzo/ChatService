@@ -7,13 +7,13 @@
 #include "messages.pb.h"
 
 // A connection is Server or a Client
-
 enum class Owner
 {
-	Server,
+	Server,//actually not implemented yet. Server doesnt sends server commands and done receive reponse to them
 	Client
 };
 
+//State of the connection, used only on server side per each client
 enum class State
 {
 	None,
@@ -27,13 +27,13 @@ class Connection : public std::enable_shared_from_this<Connection>
 {
 public:
 	// Constructor: Specify Owner, connect to context, transfer the socket and provide reference to incoming message queue
-	Connection(Owner parent, asio::io_context& asioContext, asio::ip::tcp::socket socket, ThreadSafeQueue<std::pair<std::shared_ptr<Connection>, Messages::CommunicationMessage>>& inputQueue);
+	Connection(Owner parent, asio::io_context& asioContext, asio::ip::tcp::socket socket, size_t connectionId, ThreadSafeQueue<std::pair<std::shared_ptr<Connection>, Messages::CommunicationMessage>>& inputQueue);
 	virtual ~Connection() {}
 		
 	size_t GetID() const;// This ID is used system wide - its how clients will understand other clients exist across the whole system.
 
 	void ConnectToServer(const asio::ip::tcp::resolver::results_type& address);//client side only
-	void ConnectToClient(uint32_t uid = 0);//server side only
+	void ConnectToClient();//server side only
 
 	void Disconnect();
 
@@ -50,6 +50,9 @@ public:
 	State& GetConnectionState();
 	void SetConnectionState(const State& conState);
 
+	void SetConnectionClientName(const std::string& userName);
+	const std::string& GetConnectionClientName() const;
+			
 private:
 	void WriteData();
 
@@ -69,5 +72,6 @@ private:
 	State m_connectionState = State::None;
 	size_t m_id = 0;
 	size_t m_msgId = 0;
+	std::string m_clientUserName;//used only on server side. Means which user is connected on that conection
 };
 

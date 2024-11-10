@@ -26,7 +26,7 @@ bool Client::Connect(const std::string& host, const uint16_t port)
 		asio::ip::tcp::resolver resolver(m_context);// asio logic, Resolve ip-address into tangiable physical address
 		asio::ip::tcp::resolver::results_type endpoints = resolver.resolve(host, std::to_string(port)); //resolver will get ip address of soem url address
 
-		m_connection = std::make_unique<Connection>(Owner::Client, m_context, asio::ip::tcp::socket(m_context), m_queuedMessagesIn);// Create connection
+		m_connection = std::make_unique<Connection>(Owner::Client, m_context, asio::ip::tcp::socket(m_context), Defs::ClientConnectionId, m_queuedMessagesIn);// Create connection
 
 		m_connection->ConnectToServer(endpoints);// Tell the connection object to connect to server
 
@@ -64,7 +64,6 @@ bool Client::IsConnected()
 	
 	return false;
 }
-
 
 void Client::Send(const ChatMessages::UserMessage& msg)
 {

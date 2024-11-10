@@ -13,7 +13,6 @@ public:
 	Client();
 	virtual ~Client();
 
-
 	bool Connect(const std::string& host, const uint16_t port);	// Connect to server with ip-address and port
 	void Disconnect();// Disconnect from the server	
 	bool IsConnected();// Check if client is connected to server
@@ -22,8 +21,8 @@ public:
 	void Wait() { m_queuedMessagesIn.Wait(); }
 protected:
 	virtual void ProcessIncomeMessages() = 0;
-	asio::io_context m_context;	// asio context handles the data transfer...
-	std::thread m_threadContext;		// but needs a thread of its own to execute work commands
+	asio::io_context m_context;					// asio context handles the data transfer...
+	std::thread m_threadContext;				// but needs a thread of its own to execute work commands
 	std::unique_ptr<Connection> m_connection;	//"connection" object handles data transfer
 private:
 	ThreadSafeQueue<std::pair<std::shared_ptr<Connection>, Messages::CommunicationMessage>> m_queuedMessagesIn;	// thread safe queue for incoming messages from server

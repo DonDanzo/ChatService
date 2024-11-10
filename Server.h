@@ -18,14 +18,16 @@ public:
 	void WaitForClientConnection();
 	void MessageAllClients(Messages::CommunicationMessage& msg, std::shared_ptr<Connection> pIgnoreClient = nullptr);
 	void Update(size_t nMaxMessages = -1, bool bWait = false);
-	void DisconnectClient(const std::string& userName, std::shared_ptr<Connection> client);
+	void DisconnectClient(std::shared_ptr<Connection> client);
 protected:
 
-	virtual bool OnClientConnect(const std::string& clientName, std::shared_ptr<Connection> client) = 0;
-	virtual void OnClientDisconnect(const std::string& clientName, std::shared_ptr<Connection> client) = 0;
+	//virtual void OnClientTryingConnect(std::shared_ptr<Connection> client) = 0;
+	virtual bool OnClientConnected(const std::string& userName, std::shared_ptr<Connection> client) = 0;
+	virtual void OnClientDisconnect(std::shared_ptr<Connection> client) = 0;
 	virtual void OnMessage(std::shared_ptr<Connection> client, Messages::CommunicationMessage& msg) = 0;
 	uint32_t m_clientsCount = 0;	// Clients will be identified in the "wider system" via an ID
-	std::deque<std::pair<std::string, std::shared_ptr<Connection>>> m_dequedConnections;	// Container of active validated connections
+
+	std::deque<std::shared_ptr<Connection>> m_dequedConnections;	// Container of active validated connections
 private:
 
 	asio::io_context m_context;

@@ -6,9 +6,11 @@ class SpiderServer : public Server
 public:
 	SpiderServer(uint16_t port) : Server(port)
 	{}
-	virtual bool OnClientConnect(const std::string& clientName, std::shared_ptr<Connection> client) override;
-	virtual void OnClientDisconnect(const std::string& clientName, std::shared_ptr<Connection> client) override;
-	virtual void OnMessage(std::shared_ptr<Connection> client, Messages::CommunicationMessage& msg) override;
+
+	//void OnClientTryingConnect(std::shared_ptr<Connection> client) override;
+	bool OnClientConnected(const std::string& userName, std::shared_ptr<Connection> client) override;
+	void OnClientDisconnect(std::shared_ptr<Connection> client) override;
+	void OnMessage(std::shared_ptr<Connection> client, Messages::CommunicationMessage& msg) override;
 
 	void KickUser(std::string& userName);
 

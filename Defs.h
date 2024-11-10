@@ -15,23 +15,28 @@
 namespace Defs
 {
 	//name of log file should be example: Log_YYYYMMDDHH.log
-	const std::string LogFileHeadNameTemplate ("Log_");
-	const std::string LogFileTailNameTemplate (".log");
+	const std::string LogFileHeadNameTemplate{ "Log_" };
+	const std::string LogFileTailNameTemplate{ ".log" };
 
 
-	const std::string LogInfoHead("INFO: ");
-	const std::string LogErrorHead("ERROR: ");
+	const std::string LogInfoHead{ "INFO: " };
+	const std::string LogErrorHead{ "ERROR: " };
 
-	
+
 	const auto MinuteSeconds{ 60 };
 	const auto HourSeconds{ 3600 };
 	const auto HourMinutes{ 60 };
+	const auto InactivityTimeSeconds {600};
 
-	const size_t NewHourTimerId{ 100 };
+	const size_t NewHourTimerId { 100 };
+	const size_t InactivityTimerId{ 101 };
 
-	const auto MaxClientsCount = 1000;
-	const auto MaxBodyLength = 5000;//it can be send message with maximum 5000 symbols
+	const auto MaxClientsCount { 1000 };
+	const auto MaxBodyLength { 5000 };//it can be send message with maximum 5000 symbols
 
-	const std::string ConnectHandshakeMessageValue = "Drasti!";
+
+	const std::string ConnectHandshakeMessageValue{ "Drasti!" };
+
+	const size_t ClientConnectionId{ 1 };//that should be always for Client connection. For Server connection id should be different, depending how much clients are connected to
 
 };
