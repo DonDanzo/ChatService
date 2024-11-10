@@ -1,0 +1,85 @@
+
+| 10-10-2024 10:11:17 |Connection::Send(const ChatMessages::UserMessage& msg)-->MsgType:[Client], UserName:[danzo], IpAddress:[fe80::faa8:968c:15c9:8cfa%7], Time:[10-10-2024 10:11:08], Message:[Drasti!]
+| 10-10-2024 10:11:17 |INFO: Client connection closed!
+
+| 10-10-2024 10:19:06 |Connection::Send(const ChatMessages::UserMessage& msg)-->MsgType:[Client], UserName:[IWANKATA], IpAddress:[fe80::faa8:968c:15c9:8cfa%7], Time:[10-10-2024 10:19:06], Message:[Drasti!]
+| 10-10-2024 10:19:06 |Connection::WriteData() - HEADER-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 10:19:06 |Connection::WriteData() - BODY-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 10:19:10 |Connection::Send(const ChatMessages::UserMessage& msg)-->MsgType:[Client], UserName:[IWANKATA], IpAddress:[fe80::faa8:968c:15c9:8cfa%7], Time:[10-10-2024 10:19:10], Message:[Nkakwo staw abrat]
+| 10-10-2024 10:19:10 |Connection::WriteData() - HEADER-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 10:19:10 |Connection::WriteData() - BODY-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 10:19:16 |INFO: Handle Timer with ID: 101
+| 10-10-2024 10:19:23 |INFO: Client InAvailability timer occurs!
+| 10-10-2024 10:19:28 |INFO: Inactive timer restarted!
+| 10-10-2024 10:19:28 |INFO: Client connection closed!
+
+| 10-10-2024 10:30:09 |INFO: Log and activity timers started!
+| 10-10-2024 10:30:09 |Connection::Send(const ChatMessages::UserMessage& msg)-->MsgType:[Client], UserName:[DANZOPOOOOO], IpAddress:[fe80::faa8:968c:15c9:8cfa%7], Time:[10-10-2024 10:30:04], Message:[Drasti!]
+| 10-10-2024 10:30:09 |Connection::WriteData() - HEADER-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 10:30:09 |Connection::WriteData() - BODY-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 10:30:19 |INFO: Handle Timer with ID: 101
+| 10-10-2024 10:30:26 |INFO: Client InAvailability timer occurs!
+| 10-10-2024 10:30:26 |INFO: Client connection closed!
+
+| 10-10-2024 10:31:07 |INFO: Log and activity timers started!
+| 10-10-2024 10:31:07 |Connection::Send(const ChatMessages::UserMessage& msg)-->MsgType:[Client], UserName:[DINEEEEEEEEE], IpAddress:[fe80::faa8:968c:15c9:8cfa%7], Time:[10-10-2024 10:31:07], Message:[Drasti!]
+| 10-10-2024 10:31:07 |Connection::WriteData() - HEADER-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 10:31:07 |Connection::WriteData() - BODY-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 10:31:17 |INFO: Handle Timer with ID: 101
+| 10-10-2024 10:31:17 |INFO: Client InAvailability timer occurs!
+| 10-10-2024 10:31:17 |INFO: Client connection closed!
+
+| 10-10-2024 10:34:11 |INFO: Log and activity timers started!
+| 10-10-2024 10:34:11 |Connection::Send(const ChatMessages::UserMessage& msg)-->MsgType:[Client], UserName:[danzo], IpAddress:[fe80::faa8:968c:15c9:8cfa%7], Time:[10-10-2024 10:34:11], Message:[Drasti!]
+| 10-10-2024 10:34:11 |Connection::WriteData() - HEADER-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 10:34:11 |Connection::WriteData() - BODY-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 10:34:21 |INFO: Handle Timer with ID: 101
+| 10-10-2024 10:34:21 |INFO: Client InAvailability timer occurs!
+| 10-10-2024 10:34:21 |INFO: Client connection closed!
+
+| 10-10-2024 10:40:52 |INFO: Log and activity timers started!
+| 10-10-2024 10:40:52 |Connection::Send(const ChatMessages::UserMessage& msg)-->MsgType:[Client], UserName:[danzo], IpAddress:[fe80::faa8:968c:15c9:8cfa%7], Time:[10-10-2024 10:40:52], Message:[Drasti!]
+| 10-10-2024 10:40:52 |Connection::WriteData() - HEADER-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 10:40:52 |Connection::WriteData() - BODY-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 10:41:02 |INFO: Handle Timer with ID: 101
+| 10-10-2024 10:41:02 |INFO: Client InAvailability timer occurs!
+| 10-10-2024 10:41:02 |INFO: Client connection closed!
+
+| 10-10-2024 10:45:01 |INFO: Log and activity timers started!
+| 10-10-2024 10:45:01 |Connection::Send(const ChatMessages::UserMessage& msg)-->MsgType:[Client], UserName:[dada], IpAddress:[fe80::faa8:968c:15c9:8cfa%7], Time:[10-10-2024 10:45:01], Message:[Drasti!]
+| 10-10-2024 10:45:01 |Connection::WriteData() - HEADER-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 10:45:01 |Connection::WriteData() - BODY-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 10:45:11 |INFO: Handle Timer with ID: 101
+| 10-10-2024 10:45:11 |INFO: Client InAvailability timer occurs!
+
+| 10-10-2024 10:48:39 |INFO: Log and activity timers started!
+| 10-10-2024 10:48:39 |Connection::Send(const ChatMessages::UserMessage& msg)-->MsgType:[Client], UserName:[danzo], IpAddress:[fe80::faa8:968c:15c9:8cfa%7], Time:[10-10-2024 10:48:39], Message:[Drasti!]
+| 10-10-2024 10:48:39 |Connection::WriteData() - HEADER-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 10:48:39 |Connection::WriteData() - BODY-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 10:48:49 |INFO: Handle Timer with ID: 101
+| 10-10-2024 10:48:49 |INFO: Client InAvailability timer occurs!
+| 10-10-2024 10:48:52 |INFO: Client connection closed!
+
+| 10-10-2024 10:53:30 |INFO: Log and activity timers started!
+| 10-10-2024 10:53:30 |Connection::Send(const ChatMessages::UserMessage& msg)-->MsgType:[Client], UserName:[danzo], IpAddress:[fe80::faa8:968c:15c9:8cfa%7], Time:[10-10-2024 10:53:30], Message:[Drasti!]
+| 10-10-2024 10:53:30 |Connection::WriteData() - HEADER-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 10:53:30 |Connection::WriteData() - BODY-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 10:53:40 |INFO: Handle Timer with ID: 101
+| 10-10-2024 10:53:40 |INFO: Client InAvailability timer occurs!
+| 10-10-2024 10:53:40 |INFO: Client connection closed!
+
+| 10-10-2024 10:54:39 |Connection::Send(const ChatMessages::UserMessage& msg)-->MsgType:[Client], UserName:[danzo], IpAddress:[fe80::faa8:968c:15c9:8cfa%7], Time:[10-10-2024 10:54:39], Message:[Drasti!]
+| 10-10-2024 10:54:39 |INFO: Log and activity timers started!
+| 10-10-2024 10:54:39 |Connection::WriteData() - HEADER-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 10:54:39 |Connection::WriteData() - BODY-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 10:54:49 |INFO: Handle Timer with ID: 101
+| 10-10-2024 10:54:49 |INFO: Client InAvailability timer occurs!
+| 10-10-2024 10:54:49 |INFO: Client connection closed!
+
+| 10-10-2024 10:57:36 |Connection::Send(const ChatMessages::UserMessage& msg)-->MsgType:[Client], UserName:[DANZO], IpAddress:[fe80::faa8:968c:15c9:8cfa%7], Time:[10-10-2024 10:55:57], Message:[Drasti!]
+| 10-10-2024 10:57:36 |INFO: Log and activity timers started!
+| 10-10-2024 10:57:59 |Connection::WriteData() - HEADER-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 10:57:59 |INFO: Handle Timer with ID: 101
+| 10-10-2024 10:57:59 |INFO: Client InAvailability timer occurs!
+| 10-10-2024 10:57:59 |Connection::WriteData() - BODY-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 10:57:59 |INFO: Client connection closed!

@@ -1,0 +1,43 @@
+
+| 10-10-2024 1:36:20 |INFO: Handle Timer with ID: 101
+| 10-10-2024 1:36:20 |INFO: Client InAvailability timer occurs!
+| 10-10-2024 1:36:44 |INFO: Handle Timer with ID: 101
+| 10-10-2024 1:36:59 |INFO: Client InAvailability timer occurs!
+
+| | 10-10-2024 1:50:14 |Connection::Send(const ChatMessages::UserMessage& msg)-->MsgType:[Client], UserName:[iwanko], IpAddress:[fe80::faa8:968c:15c9:8cfa%7], Time:[10-10-2024 1:50:14], Message:[Drasti!]
+10-10-2024 1:50:14 |Connection::WriteData()-->Communication message with type: [None], UserMsgType:[Client], UserName:[iwanko], IpAddress:[fe80::faa8:968c:15c9:8cfa%7], Time:[10-10-2024 1:50:14], Message:[Drasti!]
+| 10-10-2024 1:50:14 |INFO: Client connection closed!
+| 10-10-2024 1:50:17 |INFO: Handle Timer with ID: 101
+| 10-10-2024 1:50:17 |INFO: Client InAvailability timer occurs!
+
+| | 10-10-2024 1:50:52 |Connection::Send(const ChatMessages::UserMessage& msg)-->MsgType:[Client], UserName:[iwankoooooto], IpAddress:[fe80::faa8:968c:15c9:8cfa%7], Time:[10-10-2024 1:50:52], Message:[Drasti!]
+10-10-2024 1:50:52 |Connection::WriteData()-->Communication message with type: [None], UserMsgType:[Client], UserName:[iwankoooooto], IpAddress:[fe80::faa8:968c:15c9:8cfa%7], Time:[10-10-2024 1:50:52], Message:[Drasti!]
+| 10-10-2024 1:50:56 |INFO: Handle Timer with ID: 101
+| 10-10-2024 1:50:56 |INFO: Client InAvailability timer occurs!
+| 10-10-2024 1:51:6 |INFO: Handle Timer with ID: 101
+| 10-10-2024 1:51:6 |INFO: Client InAvailability timer occurs!
+| 10-10-2024 1:51:16 |INFO: Handle Timer with ID: 101
+| 10-10-2024 1:51:16 |INFO: Client InAvailability timer occurs!
+| 10-10-2024 1:51:26 |INFO: Handle Timer with ID: 101
+| 10-10-2024 1:51:26 |INFO: Client InAvailability timer occurs!
+| 10-10-2024 1:52:6 |INFO: Handle Timer with ID: 101
+| 10-10-2024 1:52:6 |INFO: Client InAvailability timer occurs!
+
+| 10-10-2024 1:52:44 |INFO: Handle Timer with ID: 101
+| 10-10-2024 1:52:44 |INFO: Client InAvailability timer occurs!
+| 10-10-2024 1:52:54 |INFO: Handle Timer with ID: 101
+| 10-10-2024 1:52:54 |INFO: Client InAvailability timer occurs!
+| 10-10-2024 1:53:0 |Connection::Send(const ChatMessages::UserMessage& msg)-->MsgType:[Client], UserName:[DANKOOOO], IpAddress:[fe80::faa8:968c:15c9:8cfa%7], Time:[10-10-2024 1:53:0], Message:[Drasti!]
+| 10-10-2024 1:53:0 |Connection::WriteData()-->Communication message with type: [None], UserMsgType:[Client], UserName:[DANKOOOO], IpAddress:[fe80::faa8:968c:15c9:8cfa%7], Time:[10-10-2024 1:53:0], Message:[Drasti!]
+| 10-10-2024 1:53:4 |INFO: Handle Timer with ID: 101
+| 10-10-2024 1:53:4 |INFO: Client InAvailability timer occurs!
+| 10-10-2024 1:53:8 |Connection::Send(const ChatMessages::UserMessage& msg)-->MsgType:[Client], UserName:[DANKOOOO], IpAddress:[fe80::faa8:968c:15c9:8cfa%7], Time:[10-10-2024 1:53:8], Message:[Nkakwo]
+| 10-10-2024 1:53:8 |Connection::WriteData()-->Communication message with type: [None], UserMsgType:[Client], UserName:[DANKOOOO], IpAddress:[fe80::faa8:968c:15c9:8cfa%7], Time:[10-10-2024 1:53:8], Message:[Nkakwo]
+| 10-10-2024 1:53:14 |INFO: Handle Timer with ID: 101
+| 10-10-2024 1:53:14 |INFO: Client InAvailability timer occurs!
+| 10-10-2024 1:53:18 |INFO: Handle Timer with ID: 101
+| 10-10-2024 1:53:18 |INFO: Client InAvailability timer occurs!
+| 10-10-2024 1:53:24 |INFO: Handle Timer with ID: 101
+| 10-10-2024 1:53:24 |INFO: Client InAvailability timer occurs!
+| 10-10-2024 1:53:29 |INFO: Handle Timer with ID: 101
+| 10-10-2024 1:53:29 |INFO: Client InAvailability timer occurs!

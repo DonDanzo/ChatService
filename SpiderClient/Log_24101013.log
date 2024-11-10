@@ -1,0 +1,54 @@
+
+| 10-10-2024 13:04:16 |INFO: Log and activity timers started!
+| 10-10-2024 13:04:16 |Connection::Send(const ChatMessages::UserMessage& msg)-->MsgType:[Client], UserName:[dinok], IpAddress:[fe80::faa8:968c:15c9:8cfa%7], Time:[10-10-2024 13:04:08], Message:[Drasti!]
+| 10-10-2024 13:04:16 |Connection::WriteData() - HEADER-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 13:04:16 |Connection::WriteData() - BODY-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 13:04:23 |Connection::Send(const ChatMessages::UserMessage& msg)-->MsgType:[Client], UserName:[dinok], IpAddress:[fe80::faa8:968c:15c9:8cfa%7], Time:[10-10-2024 13:04:23], Message:[kaksi ba4e?]
+| 10-10-2024 13:04:23 |Connection::WriteData() - HEADER-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 13:04:23 |Connection::WriteData() - BODY-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+
+| 10-10-2024 13:04:59 |Connection::Send(const ChatMessages::UserMessage& msg)-->MsgType:[Client], UserName:[danzo], IpAddress:[fe80::faa8:968c:15c9:8cfa%7], Time:[10-10-2024 13:04:59], Message:[Drasti!]
+| 10-10-2024 13:04:59 |INFO: Log and activity timers started!
+| 10-10-2024 13:04:59 |Connection::WriteData() - HEADER-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 13:04:59 |Connection::WriteData() - BODY-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 13:05:05 |INFO: Inactive timer restarted!
+| 10-10-2024 13:05:05 |Connection::Send(const ChatMessages::UserMessage& msg)-->MsgType:[Client], UserName:[danzo], IpAddress:[fe80::faa8:968c:15c9:8cfa%7], Time:[10-10-2024 13:05:05], Message:[ka si ba4e?]
+| 10-10-2024 13:05:05 |Connection::WriteData() - HEADER-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 13:05:05 |Connection::WriteData() - BODY-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 13:05:08 |INFO: Inactive timer restarted!
+| 10-10-2024 13:05:08 |Connection::Send(const ChatMessages::UserMessage& msg)-->MsgType:[Client], UserName:[danzo], IpAddress:[fe80::faa8:968c:15c9:8cfa%7], Time:[10-10-2024 13:05:08], Message:[molq?]
+| 10-10-2024 13:05:08 |Connection::WriteData() - HEADER-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 13:05:08 |Connection::WriteData() - BODY-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 13:05:14 |INFO: Inactive timer restarted!
+| 10-10-2024 13:05:14 |Connection::Send(const ChatMessages::UserMessage& msg)-->MsgType:[Client], UserName:[danzo], IpAddress:[fe80::faa8:968c:15c9:8cfa%7], Time:[10-10-2024 13:05:14], Message:[mne te razbrah?]
+| 10-10-2024 13:05:14 |Connection::WriteData() - HEADER-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 13:05:14 |Connection::WriteData() - BODY-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+
+| 10-10-2024 13:05:59 |Connection::Send(const ChatMessages::UserMessage& msg)-->MsgType:[Client], UserName:[dazno], IpAddress:[fe80::faa8:968c:15c9:8cfa%7], Time:[10-10-2024 13:05:59], Message:[Drasti!]
+| 10-10-2024 13:05:59 |INFO: Log and activity timers started!
+| 10-10-2024 13:05:59 |Connection::WriteData() - HEADER-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 13:05:59 |Connection::WriteData() - BODY-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 13:06:02 |INFO: Inactive timer restarted!
+| 10-10-2024 13:06:02 |Connection::Send(const ChatMessages::UserMessage& msg)-->MsgType:[Client], UserName:[dazno], IpAddress:[fe80::faa8:968c:15c9:8cfa%7], Time:[10-10-2024 13:06:02], Message:[Nmoql]
+| 10-10-2024 13:06:02 |Connection::WriteData() - HEADER-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 13:06:02 |Connection::WriteData() - BODY-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 13:06:03 |INFO: Inactive timer restarted!
+| 10-10-2024 13:06:03 |Connection::Send(const ChatMessages::UserMessage& msg)-->MsgType:[Client], UserName:[dazno], IpAddress:[fe80::faa8:968c:15c9:8cfa%7], Time:[10-10-2024 13:06:03], Message:[Nlakwo]
+| 10-10-2024 13:06:03 |Connection::WriteData() - HEADER-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 13:06:03 |Connection::WriteData() - BODY-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 13:06:05 |INFO: Inactive timer restarted!
+| 10-10-2024 13:06:05 |Connection::Send(const ChatMessages::UserMessage& msg)-->MsgType:[Client], UserName:[dazno], IpAddress:[fe80::faa8:968c:15c9:8cfa%7], Time:[10-10-2024 13:06:05], Message:[Niskah]
+| 10-10-2024 13:06:05 |Connection::WriteData() - HEADER-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 13:06:05 |Connection::WriteData() - BODY-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 13:06:07 |INFO: Inactive timer restarted!
+| 10-10-2024 13:06:07 |Connection::Send(const ChatMessages::UserMessage& msg)-->MsgType:[Client], UserName:[dazno], IpAddress:[fe80::faa8:968c:15c9:8cfa%7], Time:[10-10-2024 13:06:07], Message:[Nwe manqk]
+| 10-10-2024 13:06:07 |Connection::WriteData() - HEADER-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 13:06:07 |Connection::WriteData() - BODY-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 13:06:25 |INFO: Inactive timer restarted!
+| 10-10-2024 13:06:25 |Connection::Send(const ChatMessages::UserMessage& msg)-->MsgType:[Client], UserName:[dazno], IpAddress:[fe80::faa8:968c:15c9:8cfa%7], Time:[10-10-2024 13:06:25], Message:[Nne te razbiram]
+| 10-10-2024 13:06:25 |Connection::WriteData() - HEADER-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 13:06:25 |Connection::WriteData() - BODY-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 13:06:31 |INFO: Inactive timer restarted!
+| 10-10-2024 13:06:31 |Connection::Send(const ChatMessages::UserMessage& msg)-->MsgType:[Client], UserName:[dazno], IpAddress:[fe80::faa8:968c:15c9:8cfa%7], Time:[10-10-2024 13:06:31], Message:[Najde begajk]
+| 10-10-2024 13:06:31 |Connection::WriteData() - HEADER-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]
+| 10-10-2024 13:06:31 |Connection::WriteData() - BODY-->Communication message with type: [None], UserMsgType:[System], UserName:[], IpAddress:[], Time:[], Message:[]

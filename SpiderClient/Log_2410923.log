@@ -1,0 +1,10 @@
+
+| | 09-10-2024 23:41:45 |Connection::Send(const ChatMessages::UserMessage& msg)-->MsgType:[Client], UserName:[Alexandro], IpAddress:[127.4.3.2], Time:[09-10-2024 23:41:45], Message:[Drasti!]
+09-10-2024 23:41:45 |Connection::WriteData()-->Communication message with type: [None], UserMsgType:[Client], UserName:[Alexandro], IpAddress:[127.4.3.2], Time:[09-10-2024 23:41:45], Message:[Drasti!]
+
+| 09-10-2024 23:43:50 |Connection::Send(const ChatMessages::UserMessage& msg)-->MsgType:[Client], UserName:[Alexandro], IpAddress:[127.4.3.2], Time:[09-10-2024 23:43:50], Message:[Drasti!]
+| 09-10-2024 23:43:50 |Connection::WriteData()-->Communication message with type: [None], UserMsgType:[Client], UserName:[Alexandro], IpAddress:[127.4.3.2], Time:[09-10-2024 23:43:50], Message:[Drasti!]
+| 09-10-2024 23:44:3 |Connection::Send(const ChatMessages::UserMessage& msg)-->MsgType:[Client], UserName:[Alexandro], IpAddress:[127.4.3.2], Time:[09-10-2024 23:43:59], Message:[are we deba we]
+| 09-10-2024 23:44:3 |Connection::WriteData()-->Communication message with type: [None], UserMsgType:[Client], UserName:[Alexandro], IpAddress:[127.4.3.2], Time:[09-10-2024 23:43:59], Message:[are we deba we]
+| 09-10-2024 23:44:13 |Connection::Send(const ChatMessages::UserMessage& msg)-->MsgType:[Client], UserName:[Alexandro], IpAddress:[127.4.3.2], Time:[09-10-2024 23:44:13], Message:[ka si ?]
+| 09-10-2024 23:44:13 |Connection::WriteData()-->Communication message with type: [None], UserMsgType:[Client], UserName:[Alexandro], IpAddress:[127.4.3.2], Time:[09-10-2024 23:44:13], Message:[ka si ?]
